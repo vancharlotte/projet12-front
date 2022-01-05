@@ -33,26 +33,12 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
       domain: 'dev-kiddymap.eu.auth0.com',
       clientId: '4xx8AmoU9nEEbWWWOQJpli8IRxuzr0p4',
 
-      // Request this audience at user authentication time
-  audience: 'https://dev-kiddymap.eu.auth0.com/api/v2/',
-
-  // Request this scope at user authentication time
-  scope: 'read:current_user',
-    // Specify configuration for the interceptor              
   httpInterceptor: {
     allowedList: [
-      {
-        // Match any request that starts 'https://dev-kiddymap.eu.auth0.com/api/v2/' (note the asterisk)
-        uri: 'https://dev-kiddymap.eu.auth0.com/api/v2/*',
-        tokenOptions: {
-          // The attached token should target this audience
-          audience: 'https://dev-kiddymap.eu.auth0.com/api/v2/',
-
-          // The attached token should have these scopes
-          scope: 'read:current_user'
-        }
-      }
+     'http://localhost:9002/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f',
+    
     ]
+
   }
     }),
     HttpClientModule,
