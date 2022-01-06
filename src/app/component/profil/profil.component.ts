@@ -25,7 +25,7 @@ export class ProfilComponent implements OnInit {
 
   callApi() {
     this.http.get(
-      encodeURI(`http://localhost:9002/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f`)).subscribe((profil) => (this.profil = JSON.stringify(profil, null, 2))
+      encodeURI(`http://localhost:9004/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f`)).subscribe((profil) => (this.profil = JSON.stringify(profil, null, 2))
       );
   }
 }

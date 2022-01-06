@@ -35,7 +35,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
   httpInterceptor: {
     allowedList: [
-     'http://localhost:9002/*',
+     'http://localhost:9004/*',
     
     ]
 
