@@ -35,9 +35,10 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
   httpInterceptor: {
     allowedList: [
-     'http://localhost:9002/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f',
+     'http://localhost:9004/*',
     
     ]
+
 
   }
     }),

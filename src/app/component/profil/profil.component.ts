@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { ANALYZE_FOR_ENTRY_COMPONENTS, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+
+import { Profil } from 'src/app/model/profil-model';
+
 
 
 @Component({
@@ -10,7 +13,7 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class ProfilComponent implements OnInit {
   profileJson!: any;
-  message! : string;
+  profil! : any;
 
   constructor(public auth: AuthService, public http : HttpClient) {}
 
@@ -22,8 +25,7 @@ export class ProfilComponent implements OnInit {
 
   callApi() {
     this.http.get(
-      encodeURI(`http://localhost:9002/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f`)).subscribe((message) => (this.message = JSON.stringify(message, null, 2))
+      encodeURI(`http://localhost:9004/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f`)).subscribe((profil) => (this.profil = JSON.stringify(profil, null, 2))
       );
-      alert(this.message);
   }
 }
