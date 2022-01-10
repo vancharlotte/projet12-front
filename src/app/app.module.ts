@@ -33,7 +33,6 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     AuthModule.forRoot({
       domain: 'dev-kiddymap.eu.auth0.com',
       clientId: '4xx8AmoU9nEEbWWWOQJpli8IRxuzr0p4',
-      clientSecret: '7RZCTvdxZIpQYc7SLpN3oA8NxcdiP_vfCmh6ytXtP3a2RpU10aeiIPBhB8jmiueZ',
       audience: 'https://localhost:9004/',
        
 
@@ -53,6 +52,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
      }
     }
   ]
+
 
 
   }
