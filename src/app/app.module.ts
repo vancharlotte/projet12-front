@@ -14,6 +14,7 @@ import { AuthButtonComponentComponent } from './component/auth-button-component/
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // Import the HTTP interceptor from the Auth0 Angular SDK
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { MapBoxComponentComponent } from './map-box-component/map-box-component.component';
 
 
 
@@ -25,6 +26,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     ProfilComponent,
     LocationComponent,
     AuthButtonComponentComponent,
+    MapBoxComponentComponent,
     
   ],
   imports: [
