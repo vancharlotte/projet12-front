@@ -51,7 +51,7 @@
             ],
             "styles": [
               "src/styles.scss"
-            ],
+                                    ],
             "scripts": []
           },
           "configurations": {
