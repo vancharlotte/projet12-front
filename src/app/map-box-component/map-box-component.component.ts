@@ -20,7 +20,7 @@ export class MapBoxComponentComponent implements OnInit {
 
     var map = new mapboxgl.Map({
       container: 'map-mapbox',
-      style: 'mapbox://styles/mapbox/dark-v10',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [-103.5917, 40.6699],
       zoom: 3 // starting zoom
     });
@@ -99,7 +99,7 @@ export class MapBoxComponentComponent implements OnInit {
         source: 'earthquakes',
         filter: ['!', ['has', 'point_count']],
         paint: {
-          'circle-color': 'pink',
+          'circle-color': 'red',
           'circle-radius': 4,
           'circle-stroke-width': 1,
           'circle-stroke-color': '#fff'
