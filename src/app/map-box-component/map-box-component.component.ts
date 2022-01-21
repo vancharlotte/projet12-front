@@ -28,18 +28,24 @@ export class MapBoxComponentComponent implements OnInit {
       zoom: 7 // starting zoom
     });
 
+    const data = [
+      { "id": "d2d4b202-1fa1-4934-9ebb-b2d3202ffa48", "longitude": 3.0584128, "latitude": 50.63781, "name": "Les Chineurs", "description": "description du lieu", "equipments": [ { "id": "75892ad1-24ce-4ea6-b05e-ac33a5423954", "name": "table à langer" } ] }, 
+      { "id": "992bad23-d487-479f-b8ff-7140332f395b", "longitude": 3.005089, "latitude": 50.6334, "name": "Frites 2000", "description": "description du lieu", "equipments": [] },
+      { "id": "0ac24495-16f8-4113-8e15-697585ec56da", "longitude": 3.0627174, "latitude": 50.638588, "name": "LOrange Bleue", "description": "description du lieu", "equipments": [] } 
+    ];
+
+
     map.addControl(new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken
-    })
-    );
+      accessToken: mapboxgl.accessToken     })     );
     map.addControl(new mapboxgl.NavigationControl());
 
 
     map.on('load', () => {
-      map.addSource('earthquakes', {
+      map.addSource('locations', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
-        data: 'assets/data.geojson',
+      //  data: 'assets/data.geojson',
+        data : 'http://localhost:9004/location/getAllGeoJson',
         cluster: true,
         clusterMaxZoom: 13, //après ce zoom le cluster s'arrête
         clusterRadius: 50
@@ -64,7 +70,7 @@ export class MapBoxComponentComponent implements OnInit {
       map.addLayer({
         id: 'clusters',
         type: 'circle',
-        source: 'earthquakes',
+        source: 'locations',
         filter: ['has', 'point_count'],
         paint: {
           'circle-color': 'blue',
@@ -82,11 +88,10 @@ export class MapBoxComponentComponent implements OnInit {
       });
 
 
-
       map.addLayer({
         id: 'cluster-count',
         type: 'symbol',
-        source: 'earthquakes',
+        source: 'locations',
         filter: ['has', 'point_count'],
         layout: {
           'text-field': '{point_count_abbreviated}',
@@ -99,7 +104,7 @@ export class MapBoxComponentComponent implements OnInit {
       map.addLayer({
         id: 'unclustered-point',
         type: 'circle',
-        source: 'earthquakes',
+        source: 'locations',
         filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': 'red',
@@ -120,7 +125,7 @@ export class MapBoxComponentComponent implements OnInit {
         const clusterId = features[0].properties!['cluster_id'];
         console.log(features[0].properties!['cluster_id']);
 
-        const source: mapboxgl.GeoJSONSource = map.getSource('earthquakes') as mapboxgl.GeoJSONSource;
+        const source: mapboxgl.GeoJSONSource = map.getSource('locations') as mapboxgl.GeoJSONSource;
         source.getClusterExpansionZoom(
           clusterId,
           (err, zoom) => {

@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 
-import { Location } from 'src/app/model/location-model';
-
 
 @Component({
   selector: 'app-location',
