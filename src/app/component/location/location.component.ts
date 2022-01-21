@@ -21,7 +21,7 @@ export class LocationComponent implements OnInit {
   
   callApi() {
     this.http.get(
-      encodeURI(`http://localhost:9004/location/get/d2d4b202-1fa1-4934-9ebb-b2d3202ffa48`)).subscribe((location) => (this.location = JSON.stringify(location, null, 2))
+      encodeURI(`http://localhost:9004/location/getAll`)).subscribe((location) => (this.location = JSON.stringify(location, null, 2))
       );
   }
 }

@@ -40,6 +40,7 @@ import { MapBoxComponentComponent } from './map-box-component/map-box-component.
       audience: 'https://localhost:9004/',
       httpInterceptor: {
         allowedList: [
+          'http://github.com/*',
           'http://localhost:9004/*',
           { uri:'https://localhost:9004/*',
   

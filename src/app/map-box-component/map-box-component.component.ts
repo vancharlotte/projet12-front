@@ -12,7 +12,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 })
 export class MapBoxComponentComponent implements OnInit {
-  constructor() { }
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
 
@@ -21,8 +24,8 @@ export class MapBoxComponentComponent implements OnInit {
     var map = new mapboxgl.Map({
       container: 'map-mapbox',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-103.5917, 40.6699],
-      zoom: 3 // starting zoom
+      center: [3.057256, 50.62925],
+      zoom: 7 // starting zoom
     });
 
     map.addControl(new MapboxGeocoder({
@@ -36,10 +39,10 @@ export class MapBoxComponentComponent implements OnInit {
       map.addSource('earthquakes', {
         type: 'geojson',
         // Use a URL for the value for the `data` property.
-        data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson',
+        data: 'assets/data.geojson',
         cluster: true,
-        clusterMaxZoom: 8, //après ce zoom le cluster s'arrête
-        clusterRadius: 100
+        clusterMaxZoom: 13, //après ce zoom le cluster s'arrête
+        clusterRadius: 50
 
       });
 

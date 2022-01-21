@@ -10,6 +10,7 @@ const routes: Routes = [
     { path: 'profil', component: ProfilComponent, canActivate : [AuthGuard  ], },
     { path: 'location', component: LocationComponent }
 
+
 ];
 
 @NgModule({
