@@ -31,16 +31,17 @@ export class MapBoxComponentComponent implements OnInit {
 
     });
 
-    const bounds = map.getBounds();
 
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken     })     );
     map.addControl(new mapboxgl.NavigationControl());
 
-    var url = 'http://localhost:9004/location/getAllGeoJson/'+ bounds.getSouth()+'/'+ bounds.getNorth()+'/'+ bounds.getWest()+'/'+bounds.getEast();
 
 
     map.on('load', () => {
+      var bounds = map.getBounds();
+      var url = 'http://localhost:9004/location/getAllGeoJson/'+ bounds.getSouth()+'/'+ bounds.getNorth()+'/'+ bounds.getWest()+'/'+bounds.getEast();
+
       
       map.addSource('locations', {
         type: 'geojson',
@@ -52,8 +53,10 @@ export class MapBoxComponentComponent implements OnInit {
 
       });
 
-      map.on('move', () => {
-        (map.getSource('locations') as GeoJSONSource).setData(url);        });
+      map.on('moveend', () => {
+        var newBounds = map.getBounds();
+        var newUrl = 'http://localhost:9004/location/getAllGeoJson/'+ newBounds.getSouth()+'/'+ newBounds.getNorth()+'/'+ newBounds.getWest()+'/'+ newBounds.getEast();
+        (map.getSource('locations') as GeoJSONSource).setData(newUrl);        });
       
       //define layer with cluster
       map.addLayer({
