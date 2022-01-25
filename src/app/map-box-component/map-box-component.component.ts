@@ -4,6 +4,9 @@ import * as mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { GeoJSONSource } from 'mapbox-gl';
+import { LocationService } from '../service/location.service';
+import { HttpClient } from '@angular/common/http';
+
 
 
 @Component({
@@ -13,8 +16,9 @@ import { GeoJSONSource } from 'mapbox-gl';
 
 })
 export class MapBoxComponentComponent implements OnInit {
+  exist!: any;
 
-  constructor() {
+  constructor(private locationService : LocationService, public http : HttpClient) {
 
   }
 
@@ -37,7 +41,6 @@ export class MapBoxComponentComponent implements OnInit {
     map.addControl(new mapboxgl.NavigationControl());
 
 
-
     map.on('load', () => {
       var bounds = map.getBounds();
       var url = 'http://localhost:9004/location/getAllGeoJson/'+ bounds.getSouth()+'/'+ bounds.getNorth()+'/'+ bounds.getWest()+'/'+bounds.getEast();
@@ -56,7 +59,10 @@ export class MapBoxComponentComponent implements OnInit {
       map.on('moveend', () => {
         var newBounds = map.getBounds();
         var newUrl = 'http://localhost:9004/location/getAllGeoJson/'+ newBounds.getSouth()+'/'+ newBounds.getNorth()+'/'+ newBounds.getWest()+'/'+ newBounds.getEast();
-        (map.getSource('locations') as GeoJSONSource).setData(newUrl);        });
+        (map.getSource('locations') as GeoJSONSource).setData(newUrl);        
+      });
+
+    
       
       //define layer with cluster
       map.addLayer({
@@ -107,6 +113,7 @@ export class MapBoxComponentComponent implements OnInit {
       });
 
 
+
       //pop on click on cluster
       map.on('click', 'clusters', (e) => {
         const features = map.queryRenderedFeatures(e.point, {
@@ -136,12 +143,12 @@ export class MapBoxComponentComponent implements OnInit {
 
 
       //pop on click on unclustered point
-      map.on('click', 'unclustered-point', (e) => {
+      map.on('mouseenter', 'unclustered-point', (e) => {
         const features = map.queryRenderedFeatures(e.point, {
-          layers: ['unclustered-point'] // replace with your layer name
+          layers: ['unclustered-point' ]
         });
         if (!features.length) {
-          return;
+         alert('prout');
         }
         const feature = features[0];
 
@@ -151,11 +158,20 @@ export class MapBoxComponentComponent implements OnInit {
           new mapboxgl.Popup()
             .setLngLat([geometry.coordinates[0], geometry.coordinates[1]])
             .setText(JSON.stringify(geometry.coordinates))
-
             .addTo(map);
-        }
+        }      
+      
       });
 
+      map.on('click', (e) => {
+            var coordinates = e.lngLat;
+    
+            new mapboxgl.Popup()
+              .setLngLat(coordinates)
+              .setHTML('you clicked here: <br/>' + coordinates ) //add button to create new marker
+              .addTo(map);
+      
+          });
 
 
 
