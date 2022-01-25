@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MapBoxComponentComponent implements OnInit {
   exist!: any;
+  popup!: mapboxgl.Popup;
 
   constructor(private locationService : LocationService, public http : HttpClient) {
 
@@ -155,22 +156,31 @@ export class MapBoxComponentComponent implements OnInit {
         const geometry = features[0].geometry;
         if (geometry.type === 'Point') {
 
-          new mapboxgl.Popup()
+         this.popup = new mapboxgl.Popup(
+          {
+            closeButton: false,        }
+         )
             .setLngLat([geometry.coordinates[0], geometry.coordinates[1]])
             .setText(JSON.stringify(geometry.coordinates))
             .addTo(map);
-        }      
+        }   
+        
+        
       
+      });
+
+      map.on('mouseleave', 'unclustered-point', (e) => {
+        this.popup.remove();
       });
 
       map.on('click', (e) => {
             var coordinates = e.lngLat;
-    
+            if(map.getZoom() >13 ) {
             new mapboxgl.Popup()
               .setLngLat(coordinates)
               .setHTML('you clicked here: <br/>' + coordinates ) //add button to create new marker
               .addTo(map);
-      
+            }
           });
 
 
