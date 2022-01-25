@@ -19,7 +19,7 @@ export class LocationComponent implements OnInit {
   
   callApi() {
     this.http.get(
-      encodeURI(`http://localhost:9004/location/getAll`)).subscribe((location) => (this.location = JSON.stringify(location, null, 2))
+      encodeURI(`http://localhost:9004/location/getAllGeoJson`)).subscribe((location) => (this.location = JSON.stringify(location, null, 2))
       );
   }
 }
