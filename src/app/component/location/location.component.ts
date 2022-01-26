@@ -11,7 +11,8 @@ import { AuthService } from '@auth0/auth0-angular';
 export class LocationComponent implements OnInit {
   location! : any;
 
-  constructor(public auth: AuthService, public http : HttpClient) {}
+  constructor(public auth: AuthService, public http : HttpClient) {   
+  }
 
   ngOnInit(): void {
   }
@@ -22,4 +23,5 @@ export class LocationComponent implements OnInit {
       encodeURI(`http://localhost:9004/location/getAllGeoJson`)).subscribe((location) => (this.location = JSON.stringify(location, null, 2))
       );
   }
+  
 }

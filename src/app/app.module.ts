@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './component/header/header.component';
 import { ProfilComponent } from './component/profil/profil.component';
 import { LocationComponent } from './component/location/location.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthButtonComponentComponent } from './component/auth-button-component/auth-button-component.component';
 import { LandingPageComponent } from './component/landing-page/landing-page.component';
+import { FormLocationComponent } from './component/form-location/form-location.component';
+import { MapBoxComponentComponent } from './map-box-component/map-box-component.component';
 
 import { AuthModule } from '@auth0/auth0-angular';
-import { AuthButtonComponentComponent } from './component/auth-button-component/auth-button-component.component';
 // Import the injector module and the HTTP client module from Angular
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // Import the HTTP interceptor from the Auth0 Angular SDK
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
-import { MapBoxComponentComponent } from './map-box-component/map-box-component.component';
-//import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 
 
@@ -29,11 +30,13 @@ import { MapBoxComponentComponent } from './map-box-component/map-box-component.
     LocationComponent,
     AuthButtonComponentComponent,
     MapBoxComponentComponent,
+    FormLocationComponent,
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     AuthModule.forRoot({
       domain: 'dev-kiddymap.eu.auth0.com',
       clientId: '4xx8AmoU9nEEbWWWOQJpli8IRxuzr0p4',

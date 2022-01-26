@@ -178,7 +178,7 @@ export class MapBoxComponentComponent implements OnInit {
             if(map.getZoom() >13 ) {
             new mapboxgl.Popup()
               .setLngLat(coordinates)
-              .setHTML('you clicked here: <br/>' + coordinates ) //add button to create new marker
+              .setHTML('you clicked here: <br/>' + coordinates) //add button to create new marker
               .addTo(map);
             }
           });
