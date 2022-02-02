@@ -3,7 +3,7 @@ export class Location {
                 public name: string,
                 public longitude : number,
                 public latitude : number,
-                public adress: string,
+              //  public adress: string,
                 public description: string,
                 public equipments: []) {
     }
