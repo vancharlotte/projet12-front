@@ -156,14 +156,15 @@ export class MapBoxComponentComponent implements OnInit {
         const feature = features[0];
 
         const geometry = features[0].geometry;
-        if (geometry.type === 'Point') {
-
+        const properties = features[0].properties;
+         if( properties && geometry.type === 'Point'){
          this.popup = new mapboxgl.Popup(
           {
             closeButton: false,        }
          )
             .setLngLat([geometry.coordinates[0], geometry.coordinates[1]])
-            .setText(JSON.stringify(geometry.coordinates))
+           // .setText(JSON.stringify(geometry.coordinates))
+           .setText(JSON.stringify(properties['name']))
             .addTo(map);
         }   
         

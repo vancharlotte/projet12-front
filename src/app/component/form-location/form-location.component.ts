@@ -7,17 +7,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './form-location.component.html',
   styleUrls: ['./form-location.component.scss']
 })
-export class FormLocationComponent implements OnInit {
-
-  location!: Location;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  onSubmit(locationForm:NgForm) { 
-    alert('qsdfghjkl');
-   }
+export class FormLocationComponent  {
+value = 'qsdvxfb';
 
 }

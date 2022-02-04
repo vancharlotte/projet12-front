@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './component/header/header.component';
@@ -17,7 +19,7 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // Import the HTTP interceptor from the Auth0 Angular SDK
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -31,12 +33,14 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     AuthButtonComponentComponent,
     MapBoxComponentComponent,
     FormLocationComponent,
+
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    MatFormFieldModule,
     AuthModule.forRoot({
       domain: 'dev-kiddymap.eu.auth0.com',
       clientId: '4xx8AmoU9nEEbWWWOQJpli8IRxuzr0p4',
@@ -59,6 +63,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
       }
     }),
     HttpClientModule,
+    BrowserAnimationsModule,
 
    /* NgxMapboxGLModule.withConfig({
       accessToken: 'pk.eyJ1IjoidmFuY2hhcmxvdHRlIiwiYSI6ImNreDVteDZlajBwbjkycG81bXpvbTM0b3EifQ.2DT673epmd2M_5exl2sqYw', // Optional, can also be set per map (accessToken input of mgl-map)
