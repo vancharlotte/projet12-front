@@ -7,26 +7,32 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   templateUrl: './form-location.component.html',
   styleUrls: ['./form-location.component.scss']
 })
-export class FormLocationComponent  {
+export class FormLocationComponent implements OnInit  {
+  locationForm!:any;  
 
-locationForm = new  FormGroup({
+  ngOnInit(): void {
+  
+  const queryString = window. location. search;
+  const urlParams = new URLSearchParams(queryString);
+  const lng = urlParams.get('lng');
+  const lat = urlParams.get('lat');
+
+  this.locationForm = new  FormGroup({
+  longitude:new FormControl(lng),
+  latitude: new FormControl(lat),
   name:  new FormControl('', [Validators.required]),
-   description: new FormControl('', [Validators.required, Validators.minLength(5)]),
+  description: new FormControl('', [Validators.required, Validators.minLength(5)]),
    
   });
 
-
+}
 
 addLocation(){
-  console.warn(this.locationForm.value)
+let location: Location = Object.assign(new Location( ), this.locationForm.value);
+console.log(location.name);
 
-  const queryString = document.location.hash;
-  console.log(queryString);
-  // get logitude and latitude from hash et ajouter à l'obj Location quand on crée 
-
-
-    let location: Location = Object.assign(new Location( ), this.locationForm.value);
-    console.log(location.name);
+//add location to bdd via service location
+//redirect vers map with new marker on marker location (add pop up confirmation?)
 
 
 }

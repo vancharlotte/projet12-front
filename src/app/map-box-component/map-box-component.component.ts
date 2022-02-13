@@ -7,6 +7,9 @@ import { GeoJSONSource } from 'mapbox-gl';
 import { LocationService } from '../service/location.service';
 import { HttpClient } from '@angular/common/http';
 
+import {Router} from '@angular/router'; // import router from angular router
+
+
 
 
 @Component({
@@ -19,7 +22,7 @@ export class MapBoxComponentComponent implements OnInit {
   exist!: any;
   popup!: mapboxgl.Popup;
 
-  constructor(private locationService : LocationService, public http : HttpClient) {
+  constructor(private locationService : LocationService, public http : HttpClient, private route:Router) {
 
   }
 
@@ -36,13 +39,17 @@ export class MapBoxComponentComponent implements OnInit {
 
     });
 
-
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken     })     );
     map.addControl(new mapboxgl.NavigationControl());
 
+    map.doubleClickZoom.disable;
+    map.scrollZoom.enable;
 
     map.on('load', () => {
+
+
+
       var bounds = map.getBounds();
       var url = 'http://localhost:9004/location/getAllGeoJson/'+ bounds.getSouth()+'/'+ bounds.getNorth()+'/'+ bounds.getWest()+'/'+bounds.getEast();
      // var url =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
@@ -179,12 +186,20 @@ export class MapBoxComponentComponent implements OnInit {
       map.on('click', (e) => {
             var coordinates = e.lngLat;
             if(map.getZoom() >13 ) {
-            new mapboxgl.Popup()
+              let newLoc =new mapboxgl.Popup()
               .setLngLat(coordinates)
-              .setHTML('you clicked here: <br/>' + coordinates) //add button to create new marker
+              .setHTML(`      <a routerLink="location" routerLinkActive="active">Location</a>  
+              ` + coordinates) //add button to create new marker
               .addTo(map);
+
+              newLoc.getElement().addEventListener('click', () => {
+                this.route.navigate(['/location'],{ queryParams: { lng: coordinates.lng, lat: coordinates.lat} }); // navigate to other page
+              });
             }
+
+            
           });
+
 
 
 
@@ -205,6 +220,10 @@ export class MapBoxComponentComponent implements OnInit {
     });
 
 
+  }
+
+  addLocation(){
+    
   }
 
 
