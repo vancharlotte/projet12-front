@@ -1,7 +1,13 @@
 <!--<div class="col-md">
     <button (click)=callApi() class="button"> call Api </button>
     <p class="lead text-muted">{{ location }}</p>
-
   </div> -->
 
-  <app-form-location></app-form-location>
+<h2>{{ location.name }}</h2>
+
+<h2>{{ location.description }}</h2>
+
+<button (click)="addToFavorites()" > Ajouter aux favoris</button>
+
+
+<button (click)="removeFromFavorites()" > Ajouter aux favoris</button>

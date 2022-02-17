@@ -14,6 +14,7 @@ export class LocationService {
   serviceBaseUrl: string = 'http://localhost:9004/location';
 
   createLocation(location: Location){
+    console.log("add location");
     return this.http.post(encodeURI(`${this.serviceBaseUrl}/add`), location);
   }
 

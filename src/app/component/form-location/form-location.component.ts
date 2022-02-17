@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from 'src/app/model/location-model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { LocationService } from 'src/app/service/location.service';
+
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-form-location',
@@ -9,6 +16,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class FormLocationComponent implements OnInit  {
   locationForm!:any;  
+  location!: any;
+  
+  constructor( private router: Router, private locationService : LocationService, public auth: AuthService, public http : HttpClient) {}
 
   ngOnInit(): void {
   
@@ -29,11 +39,13 @@ export class FormLocationComponent implements OnInit  {
 
 addLocation(){
 let location: Location = Object.assign(new Location( ), this.locationForm.value);
-console.log(location.name);
 
-//add location to bdd via service location
-//redirect vers map with new marker on marker location (add pop up confirmation?)
+this.http.post(
+  encodeURI(`http://localhost:9004/location/add`),location).subscribe(data => {
+    this.location = data;
+});
 
+this.router.navigate(['']);
 
 }
 
@@ -44,6 +56,7 @@ get name(){
 get description(){
   return this.locationForm.get('description');
 }
+
 
 
 }

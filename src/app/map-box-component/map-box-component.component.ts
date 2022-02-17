@@ -5,9 +5,12 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { GeoJSONSource } from 'mapbox-gl';
 import { LocationService } from '../service/location.service';
+
 import { HttpClient } from '@angular/common/http';
 
 import {Router} from '@angular/router'; // import router from angular router
+import { FormLocationComponent } from '../component/form-location/form-location.component';
+import { LocationComponent } from '../component/location/location.component';
 
 
 
@@ -21,6 +24,7 @@ import {Router} from '@angular/router'; // import router from angular router
 export class MapBoxComponentComponent implements OnInit {
   exist!: any;
   popup!: mapboxgl.Popup;
+
 
   constructor(private locationService : LocationService, public http : HttpClient, private route:Router) {
 
@@ -39,12 +43,14 @@ export class MapBoxComponentComponent implements OnInit {
 
     });
 
+
+
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken     })     );
     map.addControl(new mapboxgl.NavigationControl());
 
-    map.doubleClickZoom.disable;
-    map.scrollZoom.enable;
+    map.doubleClickZoom.disable();
+    map.scrollZoom.enable();
 
     map.on('load', () => {
 
@@ -153,51 +159,64 @@ export class MapBoxComponentComponent implements OnInit {
 
 
       //pop on click on unclustered point
-      map.on('mouseenter', 'unclustered-point', (e) => {
+      map.on('click', 'unclustered-point', (e) => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: ['unclustered-point' ]
         });
         if (!features.length) {
-         alert('prout');
+         alert('error length');
         }
         const feature = features[0];
 
         const geometry = features[0].geometry;
         const properties = features[0].properties;
+
+
+        let div = document.createElement('div');
+        
+        div.innerHTML = ' <button routerLink="location" routerLinkActive="active">Consulter</button> ';
+      
+
+        console.log(properties);
+
          if( properties && geometry.type === 'Point'){
          this.popup = new mapboxgl.Popup(
           {
             closeButton: false,        }
          )
             .setLngLat([geometry.coordinates[0], geometry.coordinates[1]])
-           // .setText(JSON.stringify(geometry.coordinates))
-           .setText(JSON.stringify(properties['name']))
+            .setDOMContent(div)
+           //.setText(JSON.stringify(properties['name']))
             .addTo(map);
+
+            div.addEventListener('click', () => {
+              this.route.navigate(['/location'],{ queryParams: { id: properties['id']} }); // navigate to other page
+            });
         }   
         
-        
+      });            
+
+
       
-      });
-
-      map.on('mouseleave', 'unclustered-point', (e) => {
-        this.popup.remove();
-      });
-
-      map.on('click', (e) => {
+      map.on('dblclick', (e) => {
             var coordinates = e.lngLat;
-            if(map.getZoom() >13 ) {
-              let newLoc =new mapboxgl.Popup()
+            let div2 = document.createElement('div');
+            div2.innerHTML = '<button id="mapboxgl-popup-btn" routerLink="addlocation" routerLinkActive="active">Ajouter</button>';
+      
+           // if(map.getZoom() >13 ) {
+              let newLoc = new mapboxgl.Popup()
+              .setDOMContent(      div2  )
               .setLngLat(coordinates)
-              .setHTML(`      <a routerLink="location" routerLinkActive="active">Location</a>  
-              ` + coordinates) //add button to create new marker
               .addTo(map);
 
-              newLoc.getElement().addEventListener('click', () => {
-                this.route.navigate(['/location'],{ queryParams: { lng: coordinates.lng, lat: coordinates.lat} }); // navigate to other page
+              div2.addEventListener('click', () => {
+                this.route.navigate(['/addlocation'],{ queryParams: { lng: coordinates.lng, lat: coordinates.lat} }); // navigate to other page
               });
-            }
 
-            
+              let popupElem = newLoc.getElement();
+              div2.style.color = "red";
+              
+          //  }
           });
 
 
@@ -221,10 +240,5 @@ export class MapBoxComponentComponent implements OnInit {
 
 
   }
-
-  addLocation(){
-    
-  }
-
 
 }

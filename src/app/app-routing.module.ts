@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { FormLocationComponent } from './component/form-location/form-location.component';
 import { LandingPageComponent } from './component/landing-page/landing-page.component';
 import { LocationComponent } from './component/location/location.component';
 import { ProfilComponent } from './component/profil/profil.component';
@@ -8,8 +9,8 @@ import { ProfilComponent } from './component/profil/profil.component';
 const routes: Routes = [
     { path: '', component: LandingPageComponent },
     { path: 'profil', component: ProfilComponent, canActivate : [AuthGuard  ], },
-    { path: 'location', component: LocationComponent }
-
+    { path: 'location', component: LocationComponent },
+    { path: 'addlocation', component: FormLocationComponent }
 
 ];
 

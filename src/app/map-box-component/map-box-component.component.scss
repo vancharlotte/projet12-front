@@ -1,8 +1,20 @@
 #map-mapbox { 
+background-color: red;
 position:absolute;
 top: 140px;
 bottom:0;
 left: 0;
 right: 10px;
-width:100%; }
+width:100%; 
+}
+
+.mapboxgl-popup{
+    background-color: orange;
+    color: red;
+  }
+
+.mapboxgl-popup-btn{
+    background-color: orange;
+    color: red;
+  }
 
