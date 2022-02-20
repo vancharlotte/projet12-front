@@ -12,7 +12,7 @@ import { DOCUMENT } from '@angular/common';
     </ng-container>
 
     <ng-template #loggedOut>
-      <button (click)="auth.loginWithRedirect()">Log in</button>
+      <button (click)="login()">Log in</button>
     </ng-template>
   `,
   styles: [],
@@ -22,6 +22,14 @@ export class AuthButtonComponentComponent implements OnInit {
   constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {}
 
   ngOnInit(): void {
+
+  }
+
+  login(){
+    this.auth.loginWithRedirect({
+      appState: { target: '/profil' }
+    })
+
   }
 
 }

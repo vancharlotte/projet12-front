@@ -23,6 +23,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // Import the HTTP interceptor from the Auth0 Angular SDK
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormProfilComponent } from './component/form-profil/form-profil.component';
 
 
 
@@ -36,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AuthButtonComponentComponent,
     MapBoxComponentComponent,
     FormLocationComponent,
+    FormProfilComponent,
 
     
   ],
@@ -54,6 +56,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       audience: 'https://localhost:9004/',
       httpInterceptor: {
         allowedList: [
+          'https://dev-kiddymap.eu.auth0.com/*',
           'http://github.com/*',
           'http://localhost:9004/*',
           { uri:'https://localhost:9004/*',

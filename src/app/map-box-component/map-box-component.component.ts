@@ -173,8 +173,8 @@ export class MapBoxComponentComponent implements OnInit {
 
 
         let div = document.createElement('div');
-        
         div.innerHTML = ' <button routerLink="location" routerLinkActive="active">Consulter</button> ';
+
       
 
         console.log(properties);
