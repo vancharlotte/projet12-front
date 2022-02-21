@@ -1,5 +1,5 @@
 export class NewProfil {
-    constructor(public sub: string,
+    constructor(public authId: string,
                 public username: string,
                 public description: string,
                 public favorites: []) {

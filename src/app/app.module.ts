@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 
 
 
@@ -24,6 +26,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormProfilComponent } from './component/form-profil/form-profil.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -38,6 +41,7 @@ import { FormProfilComponent } from './component/form-profil/form-profil.compone
     MapBoxComponentComponent,
     FormLocationComponent,
     FormProfilComponent,
+    LoginComponent,
 
     
   ],
@@ -49,6 +53,7 @@ import { FormProfilComponent } from './component/form-profil/form-profil.compone
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSidenavModule,
     
     AuthModule.forRoot({
       domain: 'dev-kiddymap.eu.auth0.com',

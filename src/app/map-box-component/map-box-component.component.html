@@ -1,6 +1,13 @@
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
 <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js"></script>
 
-    <div id="map-mapbox">
+
+<div id = map-mapbox>
+</div>
         
-   </div>
+<div class="sidebar" *ngIf="toggled">
+    <button (click)=closeSidebar()>
+         fermer
+    </button>
+</div>
+

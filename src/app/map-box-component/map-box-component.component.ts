@@ -9,8 +9,6 @@ import { LocationService } from '../service/location.service';
 import { HttpClient } from '@angular/common/http';
 
 import {Router} from '@angular/router'; // import router from angular router
-import { FormLocationComponent } from '../component/form-location/form-location.component';
-import { LocationComponent } from '../component/location/location.component';
 
 
 
@@ -24,7 +22,7 @@ import { LocationComponent } from '../component/location/location.component';
 export class MapBoxComponentComponent implements OnInit {
   exist!: any;
   popup!: mapboxgl.Popup;
-
+  toggled! : boolean;
 
   constructor(private locationService : LocationService, public http : HttpClient, private route:Router) {
 
@@ -39,7 +37,7 @@ export class MapBoxComponentComponent implements OnInit {
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [3.057256, 50.62925],
       zoom: 7,  // starting zoom
-      hash: true
+     // hash: true
 
     });
 
@@ -173,7 +171,7 @@ export class MapBoxComponentComponent implements OnInit {
 
 
         let div = document.createElement('div');
-        div.innerHTML = ' <button routerLink="location" routerLinkActive="active">Consulter</button> ';
+        div.innerHTML = ' <button (click)="accessData()" >Consulter</button> ';
 
       
 
@@ -190,7 +188,7 @@ export class MapBoxComponentComponent implements OnInit {
             .addTo(map);
 
             div.addEventListener('click', () => {
-              this.route.navigate(['/location'],{ queryParams: { id: properties['id']} }); // navigate to other page
+              this.toggled = true;
             });
         }   
         
@@ -240,5 +238,14 @@ export class MapBoxComponentComponent implements OnInit {
 
 
   }
+
+  goToLocation(){
+    this.route.navigate(["/location"]);
+  }
+
+  closeSidebar(){
+    this.toggled = false;
+  }
+
 
 }

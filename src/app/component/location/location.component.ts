@@ -21,110 +21,111 @@ export class LocationComponent implements OnInit {
   button!: string;
 
 
-  constructor(public auth: AuthService, public http : HttpClient) {   
+  constructor(public auth: AuthService, public http: HttpClient) {
   }
 
-   ngOnInit() {
+  ngOnInit() {
     this.findLocation();
 
 
-     this.existFavorite();
-  
-}
+    this.existFavorite();
 
-existFavorite(){
-  const queryString = window. location. search;
+  }
+
+  existFavorite() {
+    const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     this.locationId = urlParams.get('id');
 
     this.findLocation();
-    
-    const sequence$ = this.auth.user$.pipe(
-    switchMap(user => 
-       this.http.get(
-        encodeURI(`http://localhost:9004/profil/get/auth/`+ user?.sub)).pipe(
-          switchMap(profil => 
-            this.http.get(
-              encodeURI(`http://localhost:9004/profil/favorite/exist/`+ JSON.parse(JSON.stringify(profil, null, 2)).id + "/" + this.locationId))))));
 
-   sequence$.subscribe((result) => {
-    this.exist = JSON.parse(JSON.stringify(result, null, 2)), 
-    console.log("exist" + this.exist);
-    if(   this.exist    ){
-      this.buttonValue = "Retirer des favoris";}
-      else{this.buttonValue = "Ajouter aux favoris";}
+    const sequence$ = this.auth.user$.pipe(
+      switchMap(user =>
+        this.http.get(
+          encodeURI(`http://localhost:9004/profil/get/auth/` + user?.sub)).pipe(
+            switchMap(profil =>
+              this.http.get(
+                encodeURI(`http://localhost:9004/profil/favorite/exist/` + JSON.parse(JSON.stringify(profil, null, 2)).id + "/" + this.locationId))))));
+
+    sequence$.subscribe((result) => {
+      this.exist = JSON.parse(JSON.stringify(result, null, 2)),
+        console.log("exist" + this.exist);
+      if (this.exist) {
+        this.buttonValue = "Retirer des favoris";
+      }
+      else { this.buttonValue = "Ajouter aux favoris"; }
     });
 
-}
+  }
 
-findLocation():Location{
-  const queryString = window. location. search;
+  findLocation(): Location {
+    const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const locationId = urlParams.get('id');
 
     this.http.get(
-        encodeURI(`http://localhost:9004/location/get/`+ locationId)).subscribe((locationJSON) => ( this.location = JSON.parse(JSON.stringify(locationJSON, null, 2)),
-           console.log(this.location.name)));
+      encodeURI(`http://localhost:9004/location/get/` + locationId)).subscribe((locationJSON) => (this.location = JSON.parse(JSON.stringify(locationJSON, null, 2)),
+        console.log(this.location.name)));
 
-           return this.location;
-  
+    return this.location;
 
-}
-
-  
-  modifyFavorite(button : string){
-    console.log("button : " + this.buttonValue);
-    if (  button =="Retirer des favoris"){
-      this.removeFromFavorites();
 
   }
-    else{
+
+
+  modifyFavorite(button: string) {
+    console.log("button : " + this.buttonValue);
+    if (button == "Retirer des favoris") {
+      this.removeFromFavorites();
+
+    }
+    else {
       this.addToFavorites();
 
     }
 
-  
-  console.log("buttonValue : " + this.buttonValue);
 
-} 
+    console.log("buttonValue : " + this.buttonValue);
 
-addToFavorites() {
+  }
 
-
-  const sequence$ = this.auth.user$.pipe(
-    switchMap(user => 
-       this.http.get(
-        encodeURI(`http://localhost:9004/profil/get/auth/`+ user?.sub)).pipe(
-          switchMap(profil => 
-            this.http.put(
-              encodeURI(`http://localhost:9004/profil/favorite/add/`+ this.locationId), profil)))));
-
-              sequence$.subscribe();
-
-              this.buttonValue = "Retirer des favoris";
+  addToFavorites() {
 
 
-  console.log("add to favorites");
+    const sequence$ = this.auth.user$.pipe(
+      switchMap(user =>
+        this.http.get(
+          encodeURI(`http://localhost:9004/profil/get/auth/` + user?.sub)).pipe(
+            switchMap(profil =>
+              this.http.put(
+                encodeURI(`http://localhost:9004/profil/favorite/add/` + this.locationId), profil)))));
 
-}
+    sequence$.subscribe();
 
-removeFromFavorites() {
-
-
-  const sequence$ = this.auth.user$.pipe(
-    switchMap(user => 
-       this.http.get(
-        encodeURI(`http://localhost:9004/profil/get/auth/`+ user?.sub)).pipe(
-          switchMap(profil => 
-            this.http.put(
-              encodeURI(`http://localhost:9004/profil/favorite/delete/`+ this.locationId), profil)))));
-
-              sequence$.subscribe();
-              this.buttonValue = "Ajouter aux favoris";
+    this.buttonValue = "Retirer des favoris";
 
 
-  console.log("remove from favorites");
-}
+    console.log("add to favorites");
+
+  }
+
+  removeFromFavorites() {
+
+
+    const sequence$ = this.auth.user$.pipe(
+      switchMap(user =>
+        this.http.get(
+          encodeURI(`http://localhost:9004/profil/get/auth/` + user?.sub)).pipe(
+            switchMap(profil =>
+              this.http.put(
+                encodeURI(`http://localhost:9004/profil/favorite/delete/` + this.locationId), profil)))));
+
+    sequence$.subscribe();
+    this.buttonValue = "Ajouter aux favoris";
+
+
+    console.log("remove from favorites");
+  }
 
 }
 

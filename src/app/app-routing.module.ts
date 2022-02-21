@@ -6,14 +6,16 @@ import { FormProfilComponent } from './component/form-profil/form-profil.compone
 import { LandingPageComponent } from './component/landing-page/landing-page.component';
 import { LocationComponent } from './component/location/location.component';
 import { ProfilComponent } from './component/profil/profil.component';
+import { LoginComponent } from './login/login.component';
+import { MapBoxComponentComponent } from './map-box-component/map-box-component.component';
 
 const routes: Routes = [
-    { path: '', component: LandingPageComponent },
+    { path: '', component: MapBoxComponentComponent },
     { path: 'profil', component: ProfilComponent, canActivate : [AuthGuard  ], },
     { path: 'location', component: LocationComponent },
     { path: 'addlocation', component: FormLocationComponent },
-    { path: 'newProfil', component: FormProfilComponent }
-
+    { path: 'editProfil', component: FormProfilComponent },
+    { path: 'login', component: LoginComponent }
 
 
 ];

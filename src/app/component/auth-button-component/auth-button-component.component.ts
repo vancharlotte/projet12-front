@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
+import { NewProfil } from 'src/app/model/newProfil-model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-auth-button',
@@ -19,17 +21,18 @@ import { DOCUMENT } from '@angular/common';
 })
 export class AuthButtonComponentComponent implements OnInit {
 
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {}
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService, public http: HttpClient) {}
+
+  user: any;
 
   ngOnInit(): void {
-
   }
 
   login(){
-    this.auth.loginWithRedirect({
-      appState: { target: '/profil' }
-    })
-
+    this.auth.loginWithRedirect(
+      { appState: { target: '/login' }    })    
+   
   }
+
 
 }
