@@ -8,7 +8,7 @@ import { LocationService } from '../service/location.service';
 
 import { HttpClient } from '@angular/common/http';
 
-import {Router} from '@angular/router'; // import router from angular router
+import { Router } from '@angular/router'; // import router from angular router
 
 
 
@@ -22,9 +22,11 @@ import {Router} from '@angular/router'; // import router from angular router
 export class MapBoxComponentComponent implements OnInit {
   exist!: any;
   popup!: mapboxgl.Popup;
-  toggled! : boolean;
+  toggled!: boolean;
+  location!: any;
+  marker!: mapboxgl.Marker;
 
-  constructor(private locationService : LocationService, public http : HttpClient, private route:Router) {
+  constructor(private locationService: LocationService, public http: HttpClient, private route: Router) {
 
   }
 
@@ -37,32 +39,34 @@ export class MapBoxComponentComponent implements OnInit {
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [3.057256, 50.62925],
       zoom: 7,  // starting zoom
-     // hash: true
+      // hash: true
 
     });
 
 
 
     map.addControl(new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken     })     );
+      accessToken: mapboxgl.accessToken
+    }));
     map.addControl(new mapboxgl.NavigationControl());
 
     map.doubleClickZoom.disable();
     map.scrollZoom.enable();
 
     map.on('load', () => {
+      this.marker = new mapboxgl.Marker();
 
 
 
       var bounds = map.getBounds();
-      var url = 'http://localhost:9004/location/getAllGeoJson/'+ bounds.getSouth()+'/'+ bounds.getNorth()+'/'+ bounds.getWest()+'/'+bounds.getEast();
-     // var url =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
-      
+      var url = 'http://localhost:9004/location/getAllGeoJson/' + bounds.getSouth() + '/' + bounds.getNorth() + '/' + bounds.getWest() + '/' + bounds.getEast();
+      // var url =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
+
       map.addSource('locations', {
         type: 'geojson',
-      //  data: 'assets/data.geojson',
-        data : url,
-       cluster: true,
+        //  data: 'assets/data.geojson',
+        data: url,
+        cluster: true,
         clusterMaxZoom: 13, //après ce zoom le cluster s'arrête
         clusterRadius: 50
 
@@ -70,14 +74,14 @@ export class MapBoxComponentComponent implements OnInit {
 
       map.on('moveend', () => {
         var newBounds = map.getBounds();
-       var newUrl = 'http://localhost:9004/location/getAllGeoJson/'+ newBounds.getSouth()+'/'+ newBounds.getNorth()+'/'+ newBounds.getWest()+'/'+ newBounds.getEast();
-      // var newUrl =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
-      
-       (map.getSource('locations') as GeoJSONSource).setData(newUrl);        
+        var newUrl = 'http://localhost:9004/location/getAllGeoJson/' + newBounds.getSouth() + '/' + newBounds.getNorth() + '/' + newBounds.getWest() + '/' + newBounds.getEast();
+        // var newUrl =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
+
+        (map.getSource('locations') as GeoJSONSource).setData(newUrl);
       });
 
-    
-      
+
+
       //define layer with cluster
       map.addLayer({
         id: 'clusters',
@@ -130,10 +134,10 @@ export class MapBoxComponentComponent implements OnInit {
 
       //pop on click on cluster
       map.on('click', 'clusters', (e) => {
+        this.closeSidebar() 
         const features = map.queryRenderedFeatures(e.point, {
           layers: ['clusters']
         });
-
 
         const clusterId = features[0].properties!['cluster_id'];
         console.log(features[0].properties!['cluster_id']);
@@ -158,64 +162,58 @@ export class MapBoxComponentComponent implements OnInit {
 
       //pop on click on unclustered point
       map.on('click', 'unclustered-point', (e) => {
-        const features = map.queryRenderedFeatures(e.point, {
-          layers: ['unclustered-point' ]
-        });
-        if (!features.length) {
-         alert('error length');
-        }
-        const feature = features[0];
 
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ['unclustered-point']
+        });
+
+        if (!features.length) {
+          alert('error length');
+        }
+
+        const feature = features[0];
         const geometry = features[0].geometry;
         const properties = features[0].properties;
-
-
-        let div = document.createElement('div');
-        div.innerHTML = ' <button (click)="accessData()" >Consulter</button> ';
-
-      
-
         console.log(properties);
 
-         if( properties && geometry.type === 'Point'){
-         this.popup = new mapboxgl.Popup(
-          {
-            closeButton: false,        }
-         )
+        if (properties && geometry.type === 'Point') {
+
+          this.marker
             .setLngLat([geometry.coordinates[0], geometry.coordinates[1]])
-            .setDOMContent(div)
-           //.setText(JSON.stringify(properties['name']))
             .addTo(map);
 
-            div.addEventListener('click', () => {
-              this.toggled = true;
-            });
-        }   
-        
-      });            
+          console.log(properties['id']),
+            this.http.get(
+              encodeURI(`http://localhost:9004/location/get/` + properties['id'])).subscribe(result => (
+                this.location = result)),
+            this.toggled = true;
+        }
+
+      });
 
 
-      
+
       map.on('dblclick', (e) => {
-            var coordinates = e.lngLat;
-            let div2 = document.createElement('div');
-            div2.innerHTML = '<button id="mapboxgl-popup-btn" routerLink="addlocation" routerLinkActive="active">Ajouter</button>';
-      
-           // if(map.getZoom() >13 ) {
-              let newLoc = new mapboxgl.Popup()
-              .setDOMContent(      div2  )
-              .setLngLat(coordinates)
-              .addTo(map);
+        this.closeSidebar()
+        var coordinates = e.lngLat;
+        let div2 = document.createElement('div');
+        div2.innerHTML = '<button id="mapboxgl-popup-btn" routerLink="addlocation" routerLinkActive="active">Ajouter</button>';
 
-              div2.addEventListener('click', () => {
-                this.route.navigate(['/addlocation'],{ queryParams: { lng: coordinates.lng, lat: coordinates.lat} }); // navigate to other page
-              });
+        // if(map.getZoom() >13 ) {
+        let newLoc = new mapboxgl.Popup()
+          .setDOMContent(div2)
+          .setLngLat(coordinates)
+          .addTo(map);
 
-              let popupElem = newLoc.getElement();
-              div2.style.color = "red";
-              
-          //  }
-          });
+        div2.addEventListener('click', () => {
+          this.route.navigate(['/addlocation'], { queryParams: { lng: coordinates.lng, lat: coordinates.lat } }); // navigate to other page
+        });
+
+        let popupElem = newLoc.getElement();
+        div2.style.color = "red";
+
+        //  }
+      });
 
 
 
@@ -239,11 +237,12 @@ export class MapBoxComponentComponent implements OnInit {
 
   }
 
-  goToLocation(){
+  goToLocation() {
     this.route.navigate(["/location"]);
   }
 
-  closeSidebar(){
+  closeSidebar() {
+    this.marker.remove();
     this.toggled = false;
   }
 
