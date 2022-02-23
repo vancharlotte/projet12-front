@@ -19,7 +19,25 @@
           <span style="color: red;" *ngIf="description  && description.invalid && description.touched"  >Please enter a Valid input</span><br />
           <br > <br >        
 
+          <!--input type="checkbox" formControlName="highChair" id="highChair" />
+          <input type="checkbox" formControlName="changingTable" id="changingTable" />
+          <input type="checkbox" formControlName="microwave" id="microwave" />
+          <input type="checkbox" formControlName="strollerParking" id="strollerParking" />
+          <input type="checkbox" formControlName="playground" id="playground" />
+          <input type="checkbox" formControlName="breastfeedingZone" id="breastfeedingZone" /-->
+
+
+            <div *ngFor="let data of Data; let i=index">
+              <label>
+                <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" />
+                {{data.name}}
+              </label>
+            </div>
+                
         <button [disabled]=locationForm.invalid >Ajouter</button>
       </form>
     </div>
+
+
+
   </div>

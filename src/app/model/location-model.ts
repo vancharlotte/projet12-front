@@ -1,3 +1,5 @@
+import { Equipment } from "./equipment-model";
+
 export class Location {
   public id!: string;
   public name!: string;
@@ -5,5 +7,5 @@ export class Location {
   public latitude! : number;
 //  public adress: string,
   public description!: string;
-  public equipments!: [];
+  public equipments!: Equipment[];
   }

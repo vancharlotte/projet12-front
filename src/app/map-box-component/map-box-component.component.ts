@@ -25,6 +25,7 @@ export class MapBoxComponentComponent implements OnInit {
   toggled!: boolean;
   location!: any;
   marker!: mapboxgl.Marker;
+  equipments!: any;
 
   constructor(private locationService: LocationService, public http: HttpClient, private route: Router) {
 
@@ -73,6 +74,7 @@ export class MapBoxComponentComponent implements OnInit {
       });
 
       map.on('moveend', () => {
+        //this.closeSidebar();
         var newBounds = map.getBounds();
         var newUrl = 'http://localhost:9004/location/getAllGeoJson/' + newBounds.getSouth() + '/' + newBounds.getNorth() + '/' + newBounds.getWest() + '/' + newBounds.getEast();
         // var newUrl =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
@@ -89,7 +91,7 @@ export class MapBoxComponentComponent implements OnInit {
         source: 'locations',
         filter: ['has', 'point_count'],
         paint: {
-          'circle-color': 'blue',
+    'circle-color': 'lightseagreen',
           'circle-radius': [
             'step',
             ['get', 'point_count'],
@@ -123,7 +125,7 @@ export class MapBoxComponentComponent implements OnInit {
         source: 'locations',
         filter: ['!', ['has', 'point_count']],
         paint: {
-          'circle-color': 'red',
+          'circle-color': '#0d9ecf',
           'circle-radius': 4,
           'circle-stroke-width': 1,
           'circle-stroke-color': '#fff'
@@ -134,7 +136,7 @@ export class MapBoxComponentComponent implements OnInit {
 
       //pop on click on cluster
       map.on('click', 'clusters', (e) => {
-        this.closeSidebar() 
+        this.closeSidebar();
         const features = map.queryRenderedFeatures(e.point, {
           layers: ['clusters']
         });
@@ -185,16 +187,18 @@ export class MapBoxComponentComponent implements OnInit {
           console.log(properties['id']),
             this.http.get(
               encodeURI(`http://localhost:9004/location/get/` + properties['id'])).subscribe(result => (
-                this.location = result)),
+                this.location = result,
+                this.equipments[this.location.equipments]));
+      
             this.toggled = true;
         }
 
       });
 
-
+    
 
       map.on('dblclick', (e) => {
-        this.closeSidebar()
+        this.closeSidebar();
         var coordinates = e.lngLat;
         let div2 = document.createElement('div');
         div2.innerHTML = '<button id="mapboxgl-popup-btn" routerLink="addlocation" routerLinkActive="active">Ajouter</button>';
@@ -210,7 +214,6 @@ export class MapBoxComponentComponent implements OnInit {
         });
 
         let popupElem = newLoc.getElement();
-        div2.style.color = "red";
 
         //  }
       });

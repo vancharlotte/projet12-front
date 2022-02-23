@@ -1,1 +1,26 @@
 <p>form-profil works!</p>
+
+<div class="example-container">
+    <div class="form-container">
+        
+      <form [formGroup]="profilForm" (ngSubmit) = "updateProfil()" >
+        <!--input type= "text" placeholder= "authId" formControlName = "authId">
+        <br > <br >    
+
+        <input type= "text" placeholder= "profilId" formControlName = "profilId" >
+        <br > <br -->    
+
+        <input type= "text" placeholder= "username" formControlName = "username">
+          <br > 
+          <span style="color: red;" *ngIf="username && username.invalid && username.touched"  >Please enter a Valid input</span><br />
+          <br > <br >         
+
+        <input type= "text" placeholder= "description" formControlName = "description">
+          <br > 
+          <span style="color: red;" *ngIf="description  && description.invalid && description.touched"  >Please enter a Valid input</span><br />
+          <br > <br >        
+
+        <button [disabled]=profilForm.invalid >Modifier</button>
+      </form>
+    </div>
+  </div>
