@@ -20,7 +20,7 @@ export class FormLocationComponent implements OnInit {
   location!: any;
   equipmentsList!: any;
 
-
+//ajouter à l'environnemeent?
   Data: Array<any> = [
     { name: 'chaise haute', value: '3138aa5d-23ec-4836-b387-0ddf5eaa23f9' },
     { name: 'table à langer', value: '75892ad1-24ce-4ea6-b05e-ac33a5423954' },
