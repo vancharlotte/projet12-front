@@ -27,7 +27,9 @@ export class ProfilComponent implements OnInit, OnDestroy {
    this.getUser().then(() =>
       this.http.get(
         encodeURI(`http://localhost:9004/profil/get/auth/` + this.user.sub)).subscribe(profil => (
-          this.profil = profil )))
+          this.profil = profil ,
+          console.log(this.profil))
+          ))
   }
 
 
@@ -44,9 +46,13 @@ export class ProfilComponent implements OnInit, OnDestroy {
   }
 
   modifyProfil(){
-    this.route.navigate(['/editProfil'], { queryParams: { id: "acfdafb1-faed-4632-9f95-279160e1810e" } }); // navigate to other page
+    this.getUser().then(() =>
+      this.http.get(
+        encodeURI(`http://localhost:9004/profil/get/auth/` + this.user.sub)).subscribe(data => (
+          this.profil = data ,
 
-
+    this.route.navigate(['/editProfil'], { queryParams: { id : this.profil.id} }) 
+    )))// navigate to other page
   }
 
 

@@ -17,10 +17,16 @@
     <div id="equipment" *ngFor="let equipment of location?.equipments">
         {{equipment.name}}
     </div>
+
+
 <br>
 <hr>
 <br>
 
     <div id="description"> {{location?.description}}
     </div>
+    <br>
+    <br>
+    <a [routerLink]="['location']" [queryParams]="{id: location?.id}">Consulter</a>
+
 </div>

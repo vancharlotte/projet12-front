@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { lastValueFrom, map, mergeMap, Observable, switchMap } from 'rxjs';
 
@@ -21,7 +22,7 @@ export class LocationComponent implements OnInit {
   button!: string;
 
 
-  constructor(public auth: AuthService, public http: HttpClient) {
+  constructor(public auth: AuthService, public http: HttpClient, public route: Router) {
   }
 
   ngOnInit() {
@@ -126,6 +127,7 @@ export class LocationComponent implements OnInit {
 
     console.log("remove from favorites");
   }
+  
 
 }
 

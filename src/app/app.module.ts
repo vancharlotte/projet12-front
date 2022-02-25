@@ -27,6 +27,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormProfilComponent } from './component/form-profil/form-profil.component';
 import { LoginComponent } from './login/login.component';
+import { EditLocationComponent } from './edit-location/edit-location.component';
 
 
 
@@ -42,6 +43,7 @@ import { LoginComponent } from './login/login.component';
     FormLocationComponent,
     FormProfilComponent,
     LoginComponent,
+    EditLocationComponent,
 
     
   ],

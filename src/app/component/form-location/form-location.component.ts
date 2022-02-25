@@ -54,13 +54,20 @@ export class FormLocationComponent implements OnInit {
   }
 
   addLocation() {
-    console.log(this.locationForm.value.equipments)
+    console.log("location" + this.locationForm.value.name)
     this.http.get(encodeURI('http://localhost:9004/location/equipment/list/' + this.locationForm.value.equipments))
       .toPromise().then(result => {
         this.equipmentsList = result, console.log(result)
 
-        let location: Location = Object.assign(new Location(), this.locationForm.value);
-        location.equipments = this.equipmentsList;
+        let location: Location = 
+      new Location(
+        '',
+        this.locationForm.value.longitude,
+        this.locationForm.value.latitude,
+        this.locationForm.value.name,
+        this.locationForm.value.description,
+        this.equipmentsList
+              );
         console.log(location);
         this.http.post(
           encodeURI(`http://localhost:9004/location/add`), location).subscribe(data => {

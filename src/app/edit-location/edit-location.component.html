@@ -1,0 +1,44 @@
+ 
+<div class="example-container">
+    <div class="form-container">
+        
+      <form  [formGroup]="locationForm" (ngSubmit) = "updateLocation()" >
+
+        <input type= "number" placeholder= "longitude" formControlName = "longitude" value={{location.longitude}} >
+        <br > <br > 
+
+        <input type= "number" placeholder= "latitude" formControlName = "latitude" value={{location.latitude}}>
+        <br > <br >    
+
+        <input type= "text" placeholder= "name" formControlName = "name" value={{location.name}}>
+
+
+          <br > 
+          <span style="color: red;" *ngIf="name && name.invalid && name.touched"  >Please enter a Valid input</span><br />
+          <br > <br >         
+
+        <input type= "text" placeholder= "description" formControlName = "description" value={{location.description}}>
+          <br > 
+          <span style="color: red;" *ngIf="description  && description.invalid && description.touched"  >Please enter a Valid input</span><br />
+          <br > <br >        
+
+          <!--input type="checkbox" formControlName="highChair" id="highChair" />
+          <input type="checkbox" formControlName="changingTable" id="changingTable" />
+          <input type="checkbox" formControlName="microwave" id="microwave" />
+          <input type="checkbox" formControlName="strollerParking" id="strollerParking" />
+          <input type="checkbox" formControlName="playground" id="playground" />
+          <input type="checkbox" formControlName="breastfeedingZone" id="breastfeedingZone" /-->
+
+
+            <div *ngFor="let data of Data; let i=index">
+              <label>
+                <input type="checkbox" [value]="data.value" [checked]="data.checked" (change)="onCheckboxChange($event)" />
+                {{data.name}} 
+              </label>
+            </div>
+                
+        <button [disabled]=locationForm.invalid >Ajouter</button>
+      </form>
+    </div>
+
+  </div>
