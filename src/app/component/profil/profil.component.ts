@@ -44,7 +44,8 @@ export class ProfilComponent implements OnInit, OnDestroy {
   }
 
   modifyProfil(){
-    this.route.navigateByUrl("/editProfil");
+    this.route.navigate(['/editProfil'], { queryParams: { id: "acfdafb1-faed-4632-9f95-279160e1810e" } }); // navigate to other page
+
 
   }
 

@@ -1,8 +1,8 @@
 export class Profil {
-    constructor(public sub: string,
-                public id: number,
-                public email: string,
+    constructor(public id: string,
+                public authId: string,
                 public username: string,
+                public email: string,
                 public description: string,
                 public favorites: []) {
     }

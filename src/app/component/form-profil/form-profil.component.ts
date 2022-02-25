@@ -15,6 +15,7 @@ import { Profil } from 'src/app/model/profil-model';
 export class FormProfilComponent implements OnInit {
   profilForm: any;
   profil: any;
+  userId: any;
 
   constructor(private fb: FormBuilder, private router: Router, private profilService: ProfilService, public auth: AuthService, public http: HttpClient) { }
 
@@ -22,39 +23,47 @@ export class FormProfilComponent implements OnInit {
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const profilId = urlParams.get('id');
+    this.userId = urlParams.get('id');
 
-    this.http.get(
-      encodeURI("http://localhost:9004/profil/get/" + profilId)).subscribe((result) => {
-        this.profil = result,
-        this.profilForm = this.fb.group({
-          authId: new FormControl(this.profil.authId),
-          profilId: new FormControl(this.profil.profilId),
-          username: new FormControl(this.profil.username, [Validators.required]),
-          email: new FormControl(this.profil?.email, [Validators.required]),
-          description: new FormControl(this.profil.description, [Validators.required, Validators.minLength(5)]),
-          favorites: new FormControl(this.profil.favorites),
-        });
-      });
+    this.getUser(this.userId).then(
+      () =>  this.profilForm = this.fb.group({
+      authId: new FormControl(this.profil.authId),
+      profilId: new FormControl(this.profil.id),
+      username: new FormControl(this.profil.username, [Validators.required]),
+      email: new FormControl(this.profil.email, [Validators.required]),
+      description: new FormControl(this.profil.description, [Validators.required, Validators.minLength(5)]),
+      favorites: new FormControl(this.profil.favorites),
+    })
+    );
 
   }
 
+
   updateProfil() {
-    let updatedProfil: Profil = Object.assign(
+    console.log(this.profilForm.value.authId)
+    let updatedProfil: Profil = 
       new Profil(
-        this.profilForm.value.authId,
         this.profilForm.value.profilId,
+        this.profilForm.value.authId,
         this.profilForm.value.username,
         this.profilForm.value.email,
         this.profilForm.value.description,
-        this.profilForm.value.favorites));
+        this.profilForm.value.favorites
+      );
+      console.log(this.profilForm.value.authId)
 
-    this.http.post(
-      encodeURI(`http://localhost:9004/profil/update`), updatedProfil).subscribe();
+      console.log("profil" + updatedProfil.authId);
+
+
+    this.http.put(
+      encodeURI(`http://localhost:9004/profil/update/` + this.userId), updatedProfil).subscribe(
+      );
+    console.log("update");
 
     this.router.navigate(['/profil']);
 
   }
+
 
   get authId() {
     return this.profilForm.get('authId');
@@ -79,5 +88,21 @@ export class FormProfilComponent implements OnInit {
   get favorites() {
     return this.profilForm.get('favorites');
   }
+
+
+
+  getUser(id: string) {
+    return new Promise<void>((resolve, reject) => {
+      this.http.get(
+        encodeURI("http://localhost:9004/profil/get/id/" + id)).subscribe(
+          result => {
+            this.profil = result, 
+            console.log("profil: " + this.profil.id);
+            resolve();
+          });
+
+    })
+  }
+
 }
 

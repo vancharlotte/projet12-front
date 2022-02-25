@@ -18,7 +18,7 @@ export class ProfilService {
   }
 
   getProfil(profil : Profil){
-    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/${profil.sub}`));
+    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/${profil.authId}`));
   }
 
   getProfilbySub(profil : Profil){
