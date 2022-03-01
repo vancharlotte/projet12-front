@@ -4,9 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Profil } from 'src/app/model/profil-model';
 import { NewProfil } from 'src/app/model/newProfil-model';
-import { lastValueFrom, map, mergeMap, Observable, switchMap, filter } from 'rxjs';
-
-//import { ProfilService } from 'src/app/service/profil.service';
+import { lastValueFrom, map, mergeMap, Observable, switchMap, filter, firstValueFrom } from 'rxjs';
+import { ProfilService } from 'src/app/service/profil.service';
 
 
 
@@ -18,46 +17,32 @@ import { lastValueFrom, map, mergeMap, Observable, switchMap, filter } from 'rxj
 export class ProfilComponent implements OnInit, OnDestroy {
   profil : any;
   user: any;
+  profilSeq! : any;
 
 
-  constructor(public auth: AuthService, public http: HttpClient, private route: Router) { }
+  constructor(public profilService: ProfilService, public auth: AuthService, public http: HttpClient, private route: Router) { }
 
   ngOnInit() {
-
-   this.getUser().then(() =>
-      this.http.get(
-        encodeURI(`http://localhost:9004/profil/get/auth/` + this.user.sub)).subscribe(profil => (
-          this.profil = profil ,
-          console.log(this.profil))
-          ))
+    this.profilSeq =
+    this.profilService.getProfilByAuthId().subscribe(
+          profil => (
+          this.profil =  profil ,
+          console.log(this.profil)
+          )
+          )
   }
 
 
-
-  getUser() {
-    return new Promise<void>((resolve, reject) => {
-      this.auth.user$.subscribe(
-        result => {
-          this.user = result;
-          resolve();
-        });
-
-    })
-  }
-
-  modifyProfil(){
-    this.getUser().then(() =>
-      this.http.get(
-        encodeURI(`http://localhost:9004/profil/get/auth/` + this.user.sub)).subscribe(data => (
-          this.profil = data ,
-
+  modifyProfil(){ 
+    console.log("id : "+ this.profil.id)
     this.route.navigate(['/editProfil'], { queryParams: { id : this.profil.id} }) 
-    )))// navigate to other page
+    // navigate to other page
   }
 
 
   ngOnDestroy() {
-
+    console.log("unsuscribe")
+    this.profilSeq.unsubscribe();
   }
 
 

@@ -6,6 +6,9 @@ import { lastValueFrom, map, mergeMap, Observable, switchMap } from 'rxjs';
 
 import { Location } from 'src/app/model/location-model';
 import { Profil } from 'src/app/model/profil-model';
+import { FavoriteService } from 'src/app/service/favorite.service';
+import { LocationService } from 'src/app/service/location.service';
+import { ProfilService } from 'src/app/service/profil.service';
 
 
 
@@ -20,36 +23,30 @@ export class LocationComponent implements OnInit {
   location: any;
   buttonValue!: string;
   button!: string;
+  seq: any;
+  sequenceExist$: any;
+  sequenceFind$: any;
 
 
-  constructor(public auth: AuthService, public http: HttpClient, public route: Router) {
+  constructor(public locationService : LocationService, public profilService: ProfilService, public favoriteService: FavoriteService, public auth: AuthService, public http: HttpClient, public route: Router) {
   }
 
   ngOnInit() {
-    this.findLocation();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    this.locationId = urlParams.get('id')
+
+    this.findLocation(this.locationId);
 
 
-    this.existFavorite();
+    this.existFavorite(this.locationId);
 
   }
 
-  existFavorite() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    this.locationId = urlParams.get('id');
-
-    this.findLocation();
-
-    const sequence$ = this.auth.user$.pipe(
-      switchMap(user =>
-        this.http.get(
-          encodeURI(`http://localhost:9004/profil/get/auth/` + user?.sub)).pipe(
-            switchMap(profil =>
-              this.http.get(
-                encodeURI(`http://localhost:9004/profil/favorite/exist/` + JSON.parse(JSON.stringify(profil, null, 2)).id + "/" + this.locationId))))));
-
-    sequence$.subscribe((result) => {
-      this.exist = JSON.parse(JSON.stringify(result, null, 2)),
+  existFavorite(locationId : any) {
+    
+    this.sequenceExist$ = this.favoriteService.exist(locationId).subscribe((result) => {
+      this.exist = result,
         console.log("exist" + this.exist);
       if (this.exist) {
         this.buttonValue = "Retirer des favoris";
@@ -59,18 +56,11 @@ export class LocationComponent implements OnInit {
 
   }
 
-  findLocation(): Location {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const locationId = urlParams.get('id');
-
-    this.http.get(
-      encodeURI(`http://localhost:9004/location/get/` + locationId)).subscribe((locationJSON) => (this.location = JSON.parse(JSON.stringify(locationJSON, null, 2)),
+  findLocation(locationId : any): Location {
+    this.sequenceFind$ = this.locationService.getLocation(locationId).subscribe((result) => (this.location = result,
         console.log(this.location.name)));
 
     return this.location;
-
-
   }
 
 
@@ -78,56 +68,49 @@ export class LocationComponent implements OnInit {
     console.log("button : " + this.buttonValue);
     if (button == "Retirer des favoris") {
       this.removeFromFavorites();
-
     }
     else {
       this.addToFavorites();
-
     }
-
-
     console.log("buttonValue : " + this.buttonValue);
 
   }
 
   addToFavorites() {
+    const sequence$ =
+      this.profilService.getProfilByAuthId().pipe(
+        switchMap(profil =>
+          this.favoriteService.addFavorite(this.locationId, profil)));
 
+     sequence$.subscribe();
 
-    const sequence$ = this.auth.user$.pipe(
-      switchMap(user =>
-        this.http.get(
-          encodeURI(`http://localhost:9004/profil/get/auth/` + user?.sub)).pipe(
-            switchMap(profil =>
-              this.http.put(
-                encodeURI(`http://localhost:9004/profil/favorite/add/` + this.locationId), profil)))));
-
-    sequence$.subscribe();
+        //if pas d'erreur
 
     this.buttonValue = "Retirer des favoris";
 
-
     console.log("add to favorites");
+
 
   }
 
   removeFromFavorites() {
+    const sequence$ =
+      this.profilService.getProfilByAuthId().pipe(
+        switchMap(profil =>
+          this.favoriteService.deleteFavorite(this.locationId, profil)));
 
+     sequence$.subscribe();
 
-    const sequence$ = this.auth.user$.pipe(
-      switchMap(user =>
-        this.http.get(
-          encodeURI(`http://localhost:9004/profil/get/auth/` + user?.sub)).pipe(
-            switchMap(profil =>
-              this.http.put(
-                encodeURI(`http://localhost:9004/profil/favorite/delete/` + this.locationId), profil)))));
+        //if pas d'erreur
 
-    sequence$.subscribe();
     this.buttonValue = "Ajouter aux favoris";
-
-
     console.log("remove from favorites");
+
   }
-  
+
+  ngOnDestroy() {
+
+  }
 
 }
 

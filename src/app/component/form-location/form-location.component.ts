@@ -55,9 +55,9 @@ export class FormLocationComponent implements OnInit {
 
   addLocation() {
     console.log("location" + this.locationForm.value.name)
-    this.http.get(encodeURI('http://localhost:9004/location/equipment/list/' + this.locationForm.value.equipments))
+   /* this.http.get(encodeURI('http://localhost:9004/location/equipment/list/' + this.locationForm.value.equipments))
       .toPromise().then(result => {
-        this.equipmentsList = result, console.log(result)
+        this.equipmentsList = result, console.log(result)*/
 
         let location: Location = 
       new Location(
@@ -66,14 +66,14 @@ export class FormLocationComponent implements OnInit {
         this.locationForm.value.latitude,
         this.locationForm.value.name,
         this.locationForm.value.description,
-        this.equipmentsList
+        this.locationForm.value.equipments
               );
         console.log(location);
         this.http.post(
           encodeURI(`http://localhost:9004/location/add`), location).subscribe(data => {
             this.location = data;
           });
-      })
+     // })
 
     this.router.navigate(['']);
 

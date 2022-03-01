@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProfilService } from 'src/app/service/profil.service';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Profil } from 'src/app/model/profil-model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-profil',
@@ -16,6 +17,7 @@ export class FormProfilComponent implements OnInit {
   profilForm: any;
   profil: any;
   userId: any;
+  profilSeq$: any;
 
   constructor(private fb: FormBuilder, private router: Router, private profilService: ProfilService, public auth: AuthService, public http: HttpClient) { }
 
@@ -25,7 +27,7 @@ export class FormProfilComponent implements OnInit {
     const urlParams = new URLSearchParams(queryString);
     this.userId = urlParams.get('id');
 
-    this.getUser(this.userId).then(
+     this.getUser(this.userId).then(
       () =>  this.profilForm = this.fb.group({
       authId: new FormControl(this.profil.authId),
       profilId: new FormControl(this.profil.id),
@@ -35,6 +37,7 @@ export class FormProfilComponent implements OnInit {
       favorites: new FormControl(this.profil.favorites),
     })
     );
+
 
   }
 
@@ -50,17 +53,11 @@ export class FormProfilComponent implements OnInit {
         this.profilForm.value.description,
         this.profilForm.value.favorites
       );
-      console.log(this.profilForm.value.authId)
+      
+      this.profilSeq$=  this.profilService.updateProfil(updatedProfil).subscribe();
+      this.router.navigate(['/profil']);
 
-      console.log("profil" + updatedProfil.authId);
 
-
-    this.http.put(
-      encodeURI(`http://localhost:9004/profil/update/` + this.userId), updatedProfil).subscribe(
-      );
-    console.log("update");
-
-    this.router.navigate(['/profil']);
 
   }
 
@@ -89,19 +86,17 @@ export class FormProfilComponent implements OnInit {
     return this.profilForm.get('favorites');
   }
 
+  async getUser(id: string) {
+    this.profil= await firstValueFrom(this.profilService.getProfilByProfilId(id))
+      console.log("profil: " + this.profil.id);
+    return this.profil;
+  }
 
+  ngOnDestroy() {
+    this.profilSeq$.unsubscribe();
+    console.log("unsuscribe");
+    window.location.reload()
 
-  getUser(id: string) {
-    return new Promise<void>((resolve, reject) => {
-      this.http.get(
-        encodeURI("http://localhost:9004/profil/get/id/" + id)).subscribe(
-          result => {
-            this.profil = result, 
-            console.log("profil: " + this.profil.id);
-            resolve();
-          });
-
-    })
   }
 
 }

@@ -18,8 +18,8 @@ export class LocationService {
     return this.http.post(encodeURI(`${this.serviceBaseUrl}/add`), location);
   }
 
-  getProfil(location : Location){
-    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/${location.id}`));
+  getLocation(locationId : any){
+    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/${locationId}`));
   }
 
   getAllLocations(){

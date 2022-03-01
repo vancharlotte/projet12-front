@@ -17,15 +17,15 @@ export class ProfilService {
     return this.http.post(encodeURI(`${this.serviceBaseUrl}/add`), profil);
   }
 
-  getProfil(profil : Profil){
-    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/${profil.authId}`));
+  getProfilByAuthId(){
+    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/auth`));
   }
 
-  getProfilbySub(profil : Profil){
-    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/${profil.id}`));
+  getProfilByProfilId(id : String){
+    return this.http.get(encodeURI(`${this.serviceBaseUrl}/get/id/${id}`));
   }
   
-  updateProfil(profil : Profil){
+  updateProfil(profil : Profil){      
     return this.http.put(encodeURI(`${this.serviceBaseUrl}/update/${profil.id}`),profil);
 
   }

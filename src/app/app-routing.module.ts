@@ -12,7 +12,7 @@ import { MapBoxComponentComponent } from './map-box-component/map-box-component.
 
 const routes: Routes = [
     { path: '', component: MapBoxComponentComponent },
-    { path: 'profil', component: ProfilComponent, canActivate : [AuthGuard  ], },
+    { path: 'profil', component: ProfilComponent, },
     { path: 'location', component: LocationComponent },
     { path: 'addlocation', component: FormLocationComponent },
     { path: 'editLocation', component: EditLocationComponent },
