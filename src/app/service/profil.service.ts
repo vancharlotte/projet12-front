@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { Profil } from '../model/profil-model';
+import { NewProfil } from '../model/newProfil-model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class ProfilService {
   serviceBaseUrl: string = 'http://localhost:9004/profil';
 
 
-  createProfil(profil: Profil){
+  createProfil(profil: NewProfil){
     return this.http.post(encodeURI(`${this.serviceBaseUrl}/add`), profil);
   }
 

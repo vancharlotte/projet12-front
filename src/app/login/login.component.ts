@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { NewProfil } from 'src/app/model/newProfil-model';
 import { Router } from '@angular/router';
+import { ProfilService } from '../service/profil.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,33 +13,25 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public auth: AuthService, public http: HttpClient, private route: Router) { }
+  constructor(public profilService : ProfilService, public auth: AuthService, public http: HttpClient, private route: Router) { }
 
   user! : any;
 
   ngOnInit() {
 
     this.getUser().then(() => 
-      this.http.post(
-        encodeURI(`http://localhost:9004/profil/add`), new NewProfil(this.user.sub, this.user.email, "" , [] )).subscribe(),    
+      this.profilService.createProfil( new NewProfil(this.user.sub, this.user.email,  this.user.email,"" , [] )).subscribe(),    
     );
 
-    this.route.navigateByUrl("");
-
-
- // implement a form to describe profil
+    this.route.navigate([""]);
    
   }
 
-  getUser(){    
-    return new Promise<void>((resolve , reject) => {
-      this.auth.user$.subscribe(
-        result => {
-          this.user = result;
-          resolve();
-      });
-      
-    })
+ async getUser(){    
+      this.user = await firstValueFrom( this.auth.user$)
+      return this.user
   }
+
+
 
 }

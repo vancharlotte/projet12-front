@@ -31,7 +31,6 @@ export class FormLocationComponent implements OnInit {
   ];
 
 
-
   constructor(private fb: FormBuilder, private router: Router, private locationService: LocationService, public auth: AuthService, public http: HttpClient) { }
 
   ngOnInit(): void {
