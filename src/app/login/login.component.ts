@@ -4,7 +4,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { NewProfil } from 'src/app/model/newProfil-model';
 import { Router } from '@angular/router';
 import { ProfilService } from '../service/profil.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -18,10 +18,7 @@ export class LoginComponent implements OnInit {
   user! : any;
 
   ngOnInit() {
-
-    this.getUser().then(() => 
-      this.profilService.createProfil( new NewProfil(this.user.sub, this.user.email,  this.user.email,"" , [] )).subscribe(),    
-    );
+    this.getUser().then(() => this.profilService.createProfil( new NewProfil(this.user.sub, this.user.email,  this.user.email,"" , [] )).subscribe() );
 
     this.route.navigate([""]);
    
@@ -32,6 +29,9 @@ export class LoginComponent implements OnInit {
       return this.user
   }
 
+  ngOnDestroy() {
+  }
+  
 
 
 }

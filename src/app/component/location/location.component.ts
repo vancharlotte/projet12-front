@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { lastValueFrom, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { lastValueFrom, map, mergeMap, Observable, Subscription, switchMap } from 'rxjs';
 
 import { Location } from 'src/app/model/location-model';
 import { FavoriteService } from 'src/app/service/favorite.service';
@@ -27,11 +27,13 @@ export class LocationComponent implements OnInit {
   sequenceFind$: any;
   authenticated!: boolean;
 
-  constructor(public locationService : LocationService, public profilService: ProfilService, public favoriteService: FavoriteService, public auth: AuthService, public http: HttpClient, public route: Router) {
+  private readonly subscriptions = new Subscription();
+
+  constructor(public locationService: LocationService, public profilService: ProfilService, public favoriteService: FavoriteService, public auth: AuthService, public http: HttpClient, public route: Router) {
   }
 
   ngOnInit() {
- 
+
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -45,9 +47,9 @@ export class LocationComponent implements OnInit {
 
   }
 
-  existFavorite(locationId : any) {
-    
-    this.sequenceExist$ = this.favoriteService.exist(locationId).subscribe((result) => {
+  existFavorite(locationId: any) {
+
+    const sub = this.favoriteService.exist(locationId).subscribe((result) => {
       this.exist = result,
         console.log("exist" + this.exist);
       if (this.exist) {
@@ -56,14 +58,19 @@ export class LocationComponent implements OnInit {
       else { this.buttonValue = "Ajouter aux favoris"; }
     });
 
+    this.subscriptions.add(sub);
+
   }
 
-  findLocation(locationId : any): Location {
-    
-    this.sequenceFind$ = this.locationService.getLocation(locationId).subscribe((result) => (this.location = result,
-        console.log(this.location.name)));
+  findLocation(locationId: any): Location {
+
+    const sub = this.sequenceFind$ = this.locationService.getLocation(locationId).subscribe((result) => (this.location = result,
+      console.log(this.location.name)));
+
+    this.subscriptions.add(sub);
 
     return this.location;
+
   }
 
 
@@ -85,9 +92,11 @@ export class LocationComponent implements OnInit {
         switchMap(profil =>
           this.favoriteService.addFavorite(this.locationId, profil)));
 
-     sequence$.subscribe();
+    const sub = sequence$.subscribe();
+    this.subscriptions.add(sub);
 
-        //if pas d'erreur
+
+    //if pas d'erreur
 
     this.buttonValue = "Retirer des favoris";
 
@@ -102,9 +111,11 @@ export class LocationComponent implements OnInit {
         switchMap(profil =>
           this.favoriteService.deleteFavorite(this.locationId, profil)));
 
-     sequence$.subscribe();
+    const sub = sequence$.subscribe();
+    this.subscriptions.add(sub);
 
-        //if pas d'erreur
+
+    //if pas d'erreur
 
     this.buttonValue = "Ajouter aux favoris";
     console.log("remove from favorites");
@@ -112,8 +123,9 @@ export class LocationComponent implements OnInit {
   }
 
   ngOnDestroy() {
-
+    this.subscriptions.unsubscribe();
   }
+  
 
 }
 

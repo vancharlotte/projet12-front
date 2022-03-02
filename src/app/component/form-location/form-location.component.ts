@@ -6,6 +6,7 @@ import { LocationService } from 'src/app/service/location.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 
 
 
@@ -19,8 +20,10 @@ export class FormLocationComponent implements OnInit {
   equipmentArray!: any;
   location!: any;
   equipmentsList!: any;
+  private readonly subscriptions = new Subscription();
 
-//ajouter à l'environnemeent?
+
+  //ajouter à l'environnemeent?
   Data: Array<any> = [
     { name: 'chaise haute', value: '3138aa5d-23ec-4836-b387-0ddf5eaa23f9' },
     { name: 'table à langer', value: '75892ad1-24ce-4ea6-b05e-ac33a5423954' },
@@ -54,11 +57,8 @@ export class FormLocationComponent implements OnInit {
 
   addLocation() {
     console.log("location" + this.locationForm.value.name)
-   /* this.http.get(encodeURI('http://localhost:9004/location/equipment/list/' + this.locationForm.value.equipments))
-      .toPromise().then(result => {
-        this.equipmentsList = result, console.log(result)*/
 
-        let location: Location = 
+    let location: Location =
       new Location(
         '',
         this.locationForm.value.longitude,
@@ -66,13 +66,17 @@ export class FormLocationComponent implements OnInit {
         this.locationForm.value.name,
         this.locationForm.value.description,
         this.locationForm.value.equipments
-              );
-        console.log(location);
-        this.http.post(
-          encodeURI(`http://localhost:9004/location/add`), location).subscribe(data => {
-            this.location = data;
-          });
-     // })
+      );
+
+    console.log(location);
+    const sub = this.locationService.createLocation(location)
+      .subscribe(data => {
+        this.location = data;
+      });
+
+    this.subscriptions.add(sub);
+
+    // })
 
     this.router.navigate(['']);
 
@@ -106,6 +110,10 @@ export class FormLocationComponent implements OnInit {
 
   get equipments(): FormArray {
     return this.locationForm.get("equipments") as FormArray
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
 

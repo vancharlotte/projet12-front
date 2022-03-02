@@ -6,7 +6,7 @@ import { LocationService } from 'src/app/service/location.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 
 @Component({
@@ -18,6 +18,9 @@ export class EditLocationComponent implements OnInit {
   locationId: any;
   locationForm!: any;
   location!: any;
+
+  private readonly subscriptions = new Subscription();
+
 
   //ajouter à l'environnemeent?
   Data: Array<any> = [
@@ -39,7 +42,7 @@ export class EditLocationComponent implements OnInit {
 
     this.getLocation(this.locationId).then(
       () => this.fillForm(this.location)
-    )
+    );
 
 
   }
@@ -85,11 +88,13 @@ export class EditLocationComponent implements OnInit {
         this.locationForm.value.equipments
       );
 
-    this.locationService.updateProfil(updatedLocation).subscribe(data => {
+      const sub = this.locationService.updateProfil(updatedLocation).subscribe(data => {
         this.location = data;
       });
   
       console.log("update location ")
+
+    this.subscriptions.add(sub);
 
     this.router.navigate(['']);
 
@@ -134,6 +139,9 @@ onCheckboxChange(e: any) {
   return this.locationForm.get("equipments") as FormArray
 }
 
+ngOnDestroy() {
+  this.subscriptions.unsubscribe();
+}
 
 
 
