@@ -44,11 +44,10 @@ export class MapBoxComponentComponent implements OnInit {
 
     });
 
+    /*    map.addControl(new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken
+        }));*/
 
-
-    map.addControl(new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken
-    }));
     map.addControl(new mapboxgl.NavigationControl());
 
     map.doubleClickZoom.disable();
@@ -58,10 +57,8 @@ export class MapBoxComponentComponent implements OnInit {
       this.marker = new mapboxgl.Marker();
 
 
-
       var bounds = map.getBounds();
-      var url = 'http://localhost:9004/location/getAllGeoJson/' + bounds.getSouth() + '/' + bounds.getNorth() + '/' + bounds.getWest() + '/' + bounds.getEast();
-      // var url =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
+      var url = `http://localhost:9004/location/public/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
 
       map.addSource('locations', {
         type: 'geojson',
@@ -76,8 +73,7 @@ export class MapBoxComponentComponent implements OnInit {
       map.on('moveend', () => {
         //this.closeSidebar();
         var newBounds = map.getBounds();
-        var newUrl = 'http://localhost:9004/location/getAllGeoJson/' + newBounds.getSouth() + '/' + newBounds.getNorth() + '/' + newBounds.getWest() + '/' + newBounds.getEast();
-        // var newUrl =  `http://localhost:9004/location/getAllGeoJson/${bounds.getSouth()}/${bounds.getNorth()}/${bounds.getWest()}/${bounds.getEast()}`;
+        var newUrl = `http://localhost:9004/location/public/getAllGeoJson/${newBounds.getSouth()}/${newBounds.getNorth()}/${newBounds.getWest()}/${newBounds.getEast()}`;
 
         (map.getSource('locations') as GeoJSONSource).setData(newUrl);
       });
@@ -91,16 +87,11 @@ export class MapBoxComponentComponent implements OnInit {
         source: 'locations',
         filter: ['has', 'point_count'],
         paint: {
-    'circle-color': 'lightseagreen',
+          'circle-color': 'lightseagreen',
           'circle-radius': [
             'step',
             ['get', 'point_count'],
-            20,
-            100,
-            30,
-            750,
-            40,
-
+            20, 100, 30, 750, 40,
           ]
         }
       });
@@ -185,17 +176,16 @@ export class MapBoxComponentComponent implements OnInit {
             .addTo(map);
 
           console.log(properties['id']),
-            this.http.get(
-              encodeURI(`http://localhost:9004/location/get/` + properties['id'])).subscribe(result => (
-                this.location = result,
-                this.equipments[this.location.equipments]));
-      
-            this.toggled = true;
+            this.locationService.getLocation(properties['id']).subscribe(result => (
+              this.location = result,
+              this.equipments[this.location.equipments]));
+
+          this.toggled = true;
         }
 
       });
 
-    
+
 
       map.on('dblclick', (e) => {
         this.closeSidebar();

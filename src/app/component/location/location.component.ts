@@ -5,7 +5,6 @@ import { AuthService } from '@auth0/auth0-angular';
 import { lastValueFrom, map, mergeMap, Observable, switchMap } from 'rxjs';
 
 import { Location } from 'src/app/model/location-model';
-import { Profil } from 'src/app/model/profil-model';
 import { FavoriteService } from 'src/app/service/favorite.service';
 import { LocationService } from 'src/app/service/location.service';
 import { ProfilService } from 'src/app/service/profil.service';
@@ -26,15 +25,18 @@ export class LocationComponent implements OnInit {
   seq: any;
   sequenceExist$: any;
   sequenceFind$: any;
-
+  authenticated!: boolean;
 
   constructor(public locationService : LocationService, public profilService: ProfilService, public favoriteService: FavoriteService, public auth: AuthService, public http: HttpClient, public route: Router) {
   }
 
   ngOnInit() {
+ 
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     this.locationId = urlParams.get('id')
+
 
     this.findLocation(this.locationId);
 
@@ -57,6 +59,7 @@ export class LocationComponent implements OnInit {
   }
 
   findLocation(locationId : any): Location {
+    
     this.sequenceFind$ = this.locationService.getLocation(locationId).subscribe((result) => (this.location = result,
         console.log(this.location.name)));
 

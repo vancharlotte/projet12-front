@@ -65,18 +65,19 @@ import { EditLocationComponent } from './edit-location/edit-location.component';
         allowedList: [
           'https://dev-kiddymap.eu.auth0.com/*',
           'http://github.com/*',
-          'http://localhost:9004/*',
-          { uri:'https://localhost:9004/*',
-  
-            tokenOptions: {
-            // The attached token should target this audience
-            audience: 'https://localhost:9004/',
+          'http://localhost:9004/profil/*',
+          'http://localhost:9004/location/protected/*',
+          'http://localhost:9004/equipment/*',
 
-            // The attached token should have these scopes
-            scope : 'access:data, read:current_user'
-            }
+          {
+            uri : 'http://localhost:9004/location/public/*',
+            allowAnonymous : true
           }
+          
+
+
         ]
+       
       }
     }),
     HttpClientModule,
