@@ -57,7 +57,6 @@ export class FormProfilComponent implements OnInit {
       );
 
     const sub = this.profilService.updateProfil(updatedProfil).subscribe();
-    this.subscriptions.add(sub);
 
     this.router.navigate(['/profil']);
 
@@ -97,7 +96,7 @@ export class FormProfilComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    //this.subscriptions.unsubscribe();
     console.log("unsuscribe");
     window.location.reload()
 

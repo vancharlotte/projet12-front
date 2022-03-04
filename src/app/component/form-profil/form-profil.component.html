@@ -3,7 +3,7 @@
 <div class="example-container">
     <div class="form-container">
         
-      <form [formGroup]="profilForm" (ngSubmit) = "updateProfil()" >
+      <form *ngIf="profil" [formGroup]="profilForm" (ngSubmit) = "updateProfil()" >
 
         <input type= "text" placeholder= "username" formControlName = "username" value={{profilForm.username}}>
           <br > 

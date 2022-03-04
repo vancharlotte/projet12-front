@@ -21,20 +21,13 @@ export class LocationService {
   getLocation(locationId : any){
     return this.http.get(encodeURI(`${this.serviceBaseUrl}/public/get/${locationId}`));
   }
-
-  getAllLocations(){
-    return this.http.get(encodeURI(`${this.serviceBaseUrl}/public/getAll`));
-  }
   
   getLocationsGeoJsonInBetween(minLat:Number, maxLat:Number, minLong: Number, maxLong:Number){
     return this.http.get(encodeURI(`${this.serviceBaseUrl}/public/getAllGeoJson/${minLat}/${maxLat}/${minLong}/${maxLong}`));
-
   }
-
 
   updateProfil(location : Location){
     return this.http.put(encodeURI(`${this.serviceBaseUrl}/protected/update/${location.id}`), location);
-
   }
   
   deleteProfil(location : Location){
@@ -43,7 +36,6 @@ export class LocationService {
 
 
 notExist(lat:number, long:number) {
-
   return this.http.get(encodeURI(`${this.serviceBaseUrl}/protected/exist/${lat}/${long}`));
 }
 

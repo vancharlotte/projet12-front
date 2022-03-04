@@ -19,8 +19,6 @@ export class EditLocationComponent implements OnInit {
   locationForm!: any;
   location!: any;
 
-  private readonly subscriptions = new Subscription();
-
 
   //ajouter à l'environnemeent?
   Data: Array<any> = [
@@ -88,13 +86,12 @@ export class EditLocationComponent implements OnInit {
         this.locationForm.value.equipments
       );
 
-      const sub = this.locationService.updateProfil(updatedLocation).subscribe(data => {
+      this.locationService.updateProfil(updatedLocation).subscribe(data => {
         this.location = data;
       });
   
       console.log("update location ")
 
-    this.subscriptions.add(sub);
 
     this.router.navigate(['']);
 
@@ -139,8 +136,8 @@ onCheckboxChange(e: any) {
   return this.locationForm.get("equipments") as FormArray
 }
 
+
 ngOnDestroy() {
-  this.subscriptions.unsubscribe();
 }
 
 

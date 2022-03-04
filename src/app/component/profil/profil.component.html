@@ -19,7 +19,7 @@
       <hr>
       <h1>mes favoris : </h1>
       <div *ngFor="let data of profil?.favoriteLocations; let i=index">
-        <a [routerLink]="['/location']" [queryParams]="{id: data.id}">{{data?.name }}</a>
+        <a [routerLink]="['location']" [queryParams]="{id: data.id}">{{data?.name }}</a>
       </div>
 
 
