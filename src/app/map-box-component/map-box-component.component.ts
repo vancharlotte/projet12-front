@@ -5,7 +5,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { GeoJSONSource } from 'mapbox-gl';
 import { LocationService } from '../service/location.service';
-
+import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 
 import { Router } from '@angular/router'; // import router from angular router
@@ -27,7 +27,7 @@ export class MapBoxComponentComponent implements OnInit {
   marker!: mapboxgl.Marker;
   equipments!: any;
 
-  constructor(private locationService: LocationService, public http: HttpClient, private route: Router) {
+  constructor(private locationService: LocationService, public http: HttpClient, private route: Router, public auth: AuthService) {
 
   }
 
@@ -191,24 +191,27 @@ export class MapBoxComponentComponent implements OnInit {
         this.closeSidebar();
         var coordinates = e.lngLat;
         let div2 = document.createElement('div');
-        div2.innerHTML = '<button id="mapboxgl-popup-btn" routerLink="addlocation" routerLinkActive="active">Ajouter</button>';
+        div2.innerHTML = '<button  id="mapboxgl-popup-btn" routerLink="addlocation" routerLinkActive="active">Ajouter</button>';
 
-        // if(map.getZoom() >13 ) {
-        let newLoc = new mapboxgl.Popup()
-          .setDOMContent(div2)
-          .setLngLat(coordinates)
-          .addTo(map);
 
-        div2.addEventListener('click', () => {
-          this.route.navigate(['/addlocation'], { queryParams: { lng: coordinates.lng, lat: coordinates.lat } }); // navigate to other page
+        this.auth.isAuthenticated$.subscribe(result => {
+          if (result == true) {
+            // if(map.getZoom() >13 ) {
+            let newLoc = new mapboxgl.Popup()
+              .setDOMContent(div2)
+              .setLngLat(coordinates)
+              .addTo(map);
+
+            div2.addEventListener('click', () => {
+              this.route.navigate(['/addlocation'], { queryParams: { lng: coordinates.lng, lat: coordinates.lat } }); // navigate to other page
+            });
+
+            let popupElem = newLoc.getElement();
+
+          }
         });
 
-        let popupElem = newLoc.getElement();
-
-        //  }
-      });
-
-
+      })
 
 
       map.on('mouseenter', 'clusters', () => {

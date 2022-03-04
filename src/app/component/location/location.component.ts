@@ -26,6 +26,8 @@ export class LocationComponent implements OnInit {
   sequenceExist$: any;
   sequenceFind$: any;
   authenticated!: boolean;
+  admin: any;
+
 
   private readonly subscriptions = new Subscription();
 
@@ -39,6 +41,8 @@ export class LocationComponent implements OnInit {
     const urlParams = new URLSearchParams(queryString);
     this.locationId = urlParams.get('id')
 
+    this.admin=false;
+    this.getUserRole();
 
     this.findLocation(this.locationId);
 
@@ -122,10 +126,20 @@ export class LocationComponent implements OnInit {
 
   }
 
+  getUserRole() {
+    const sub = this.auth.idTokenClaims$.subscribe(result => {
+      var role = result?.['https://localhost:9002/roles'];
+      if (role = "admin") { this.admin = true }
+    })
+
+    this.subscriptions.add(sub);
+
+  }
+
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-  
+
 
 }
 

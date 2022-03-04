@@ -4,12 +4,12 @@
 
 <div id=map-mapbox>
 </div>
+<div  class="sidebar" *ngIf="toggled">
+    <div *ngIf="location">
 
-<div class="sidebar" *ngIf="toggled">
     <button (click)=closeSidebar()>
         X
     </button>
-
     <h1 id="name"> {{location?.name}} </h1>
 
     <hr>
@@ -28,5 +28,5 @@
     <br>
     <br>
     <a [routerLink]="['location']" [queryParams]="{id: location?.id}">Consulter</a>
-
+</div>
 </div>

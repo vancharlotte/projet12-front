@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormProfilComponent } from './component/form-profil/form-profil.component';
 import { LoginComponent } from './login/login.component';
 import { EditLocationComponent } from './edit-location/edit-location.component';
+import { ErrorsHandler } from './service/errors-handler.service';
 
 
 
@@ -91,6 +92,9 @@ import { EditLocationComponent } from './edit-location/edit-location.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true 
     },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorsHandler, multi: true 
+    }
+
   ],
   bootstrap: [AppComponent]
 })

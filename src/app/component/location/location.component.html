@@ -2,7 +2,7 @@
     <button (click)=callApi() class="button"> call Api </button>
     <p class="lead text-muted">{{ location }}</p>
   </div> -->
-
+<div *ngIf="location">
 <h2>{{ location.name }}</h2>
 
 <h2>{{ location.description }}</h2>
@@ -12,4 +12,5 @@
 </div>
 
 
-<a  [routerLink]="['../editLocation']" [queryParams]="{id: location.id}"> Modifier</a>
+<a  *ngIf="admin | async" [routerLink]="['../editLocation']" [queryParams]="{id: location.id}"> Modifier</a>
+</div>

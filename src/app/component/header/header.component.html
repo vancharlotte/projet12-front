@@ -1,7 +1,8 @@
 <header>
   <h1>kiddymap</h1>
     <nav>
-      <button class="btn-profil" routerLink="profil" routerLinkActive="active">Profil</button>  
+      <button *ngIf="auth.isAuthenticated$ | async" class="btn-profil" routerLink="profil" routerLinkActive="active">Profil</button>  
+
       <a  routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
       <app-auth-button></app-auth-button>  
     </nav>
