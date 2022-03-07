@@ -63,6 +63,7 @@ export class EditLocationComponent implements OnInit {
         }
       }
     }
+    console.log(equipmentArray)
 
     this.locationForm = this.fb.group({
       id: new FormControl(location.id),

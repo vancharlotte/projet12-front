@@ -26,7 +26,7 @@ export class LocationComponent implements OnInit {
   sequenceExist$: any;
   sequenceFind$: any;
   authenticated!: boolean;
-  admin: any;
+  admin: boolean = false;
 
 
   private readonly subscriptions = new Subscription();
@@ -43,7 +43,7 @@ export class LocationComponent implements OnInit {
 
     this.admin=false;
     this.getUserRole();
-
+    console.log(this.admin);
     this.findLocation(this.locationId);
 
 
@@ -128,8 +128,11 @@ export class LocationComponent implements OnInit {
 
   getUserRole() {
     const sub = this.auth.idTokenClaims$.subscribe(result => {
-      var role = result?.['https://localhost:9002/roles'];
-      if (role = "admin") { this.admin = true }
+      const role = result?.['http://localhost:9004/roles'];
+      if (role == "admin") { this.admin = true }
+      console.log( result)
+      console.log(role)
+
     })
 
     this.subscriptions.add(sub);

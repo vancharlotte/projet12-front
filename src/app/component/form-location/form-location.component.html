@@ -1,43 +1,34 @@
- 
 <div class="example-container">
-    <div class="form-container">
-        
-      <form [formGroup]="locationForm" (ngSubmit) = "addLocation()" >
-        <input type= "text" placeholder= "longitude" formControlName = "longitude">
-        <br > <br >    
+  <div class="form-container" >
+    <form [formGroup]="locationForm" (ngSubmit)="addLocation()" >
+      <h1>Nouvelle adresse</h1>
+      <i>Compléter les informations pour ajouter une nouvelle adresse sur la carte.</i>
+      <br><br>
+      <div class="form-field">
+          <b>Nom : </b>            
+          <input type="text" placeholder="Entrez le nom du lieu..." formControlName="name">
+          <span style="color: red;" *ngIf="name && name.invalid && name.touched">Please enter a Valid input</span>
+      </div>
 
-        <input type= "text" placeholder= "latitude" formControlName = "latitude" >
-        <br > <br >    
+      <div class="checkbox"  *ngFor="let data of Data; let i=index">
+        <label>
+          <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" /> {{data.name}}           
+        </label>
+      </div>
 
-        <input type= "text" placeholder= "name" formControlName = "name">
-          <br > 
-          <span style="color: red;" *ngIf="name && name.invalid && name.touched"  >Please enter a Valid input</span><br />
-          <br > <br >         
+      <div class="form-field">
 
-        <input type= "text" placeholder= "description" formControlName = "description">
-          <br > 
-          <span style="color: red;" *ngIf="description  && description.invalid && description.touched"  >Please enter a Valid input</span><br />
-          <br > <br >        
-
-          <!--input type="checkbox" formControlName="highChair" id="highChair" />
-          <input type="checkbox" formControlName="changingTable" id="changingTable" />
-          <input type="checkbox" formControlName="microwave" id="microwave" />
-          <input type="checkbox" formControlName="strollerParking" id="strollerParking" />
-          <input type="checkbox" formControlName="playground" id="playground" />
-          <input type="checkbox" formControlName="breastfeedingZone" id="breastfeedingZone" /-->
-
-
-            <div *ngFor="let data of Data; let i=index">
-              <label>
-                <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" />
-                {{data.name}}
-              </label>
-            </div>
-                
-        <button [disabled]=locationForm.invalid >Ajouter</button>
-      </form>
+          <b> 
+            <br>  Décrivez cet endroit en quelques mots :  </b>
+          <textarea placeholder="" formControlName="description"></textarea>
+          <span style="color: red;" *ngIf="description  && description.invalid && description.touched">Please enter a Valid input</span><br />
+      </div>
+      <div class=" form-button">
+     <b> <button [disabled]=locationForm.invalid>Modifier</button> </b> 
     </div>
+      <br>
+      <br>
 
-
-
+    </form>
   </div>
+</div>

@@ -20,6 +20,8 @@ export class FormLocationComponent implements OnInit {
   equipmentArray!: any;
   location!: any;
   equipmentsList!: any;
+  lng!: any;
+  lat!: any;
   private readonly subscriptions = new Subscription();
 
 
@@ -37,15 +39,12 @@ export class FormLocationComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private locationService: LocationService, public auth: AuthService, public http: HttpClient) { }
 
   ngOnInit(): void {
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const lng = urlParams.get('lng');
-    const lat = urlParams.get('lat');
+    this.lng = urlParams.get('lng');
+    this.lat = urlParams.get('lat');
 
     this.locationForm = this.fb.group({
-      longitude: new FormControl(lng),
-      latitude: new FormControl(lat),
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required, Validators.minLength(5)]),
       equipments: this.fb.array([]),
@@ -61,23 +60,21 @@ export class FormLocationComponent implements OnInit {
     let location: Location =
       new Location(
         '',
-        this.locationForm.value.longitude,
-        this.locationForm.value.latitude,
+        parseFloat(this.lng!),
+
+        parseFloat(this.lat),
+
         this.locationForm.value.name,
         this.locationForm.value.description,
         this.locationForm.value.equipments
       );
 
     console.log(location);
-    const sub = this.locationService.createLocation(location)
+    this.locationService.createLocation(location)
       .subscribe(data => {
         this.location = data;
       });
-
-    this.subscriptions.add(sub);
-
-    // })
-
+    
     this.router.navigate(['']);
 
   }

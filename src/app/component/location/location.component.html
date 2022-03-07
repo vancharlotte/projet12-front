@@ -2,7 +2,7 @@
     <button (click)=callApi() class="button"> call Api </button>
     <p class="lead text-muted">{{ location }}</p>
   </div> -->
-<div *ngIf="location">
+  <div class=form-card *ngIf="location">
 <h2>{{ location.name }}</h2>
 
 <h2>{{ location.description }}</h2>
@@ -11,6 +11,9 @@
 <button (click)="modifyFavorite(buttonValue)" > {{ buttonValue }}</button>
 </div>
 
+<div id="equipment" *ngFor="let equipment of location?.equipments">
+  {{equipment?.name}}
+</div>
 
-<a  *ngIf="admin | async" [routerLink]="['../editLocation']" [queryParams]="{id: location.id}"> Modifier</a>
+<a  *ngIf="admin" [routerLink]="['../editLocation']" [queryParams]="{id: location.id}"> Modifier</a>
 </div>
