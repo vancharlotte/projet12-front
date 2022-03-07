@@ -1,29 +1,15 @@
-<p>profil works!</p>
-
-<div class="container mt-5" *ngIf="auth.user$ | async as user">
-    <div 
-      class="row align-items-center profile-header mb-5 text-center text-md-left"
-    >
-      <div class="col-md-2">
-        <img
-          [src]="user.picture"
-          class="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-        />
-      </div>
-      <div class="col-md">
-        <h2>{{ profil?.username }}</h2>
-
-      </div>
-      <button (click)="modifyProfil()" > Modifier</button>
-
-      <hr>
-      <h1>mes favoris : </h1>
-      <div *ngFor="let data of profil?.favoriteLocations; let i=index">
-        <a [routerLink]="['location']" [queryParams]="{id: data.id}">{{data?.name }}</a>
-      </div>
+<div class="card" *ngIf="auth.user$ | async as user">
+  <br>
+  <button (click)="modifyProfil()"> Modifier</button>
+  <img [src]="user.picture" class="rounded-circle img-fluid profile-picture mb-3 mb-md-0">
+  <h2>{{ profil?.username }}</h2>
+  <p class="description">{{ profil?.description }}</p>
 
 
-
-      
-   
+  <div class="favorite">
+    <p class="title">FAVORIS </p>
+    <div *ngFor="let data of profil?.favoriteLocations; let i=index">
+      <a [routerLink]="['location']" [queryParams]="{id: data.id}">{{data?.name }} </a> <i>{{ data?.description }}</i>
     </div>
+  </div>
+</div>

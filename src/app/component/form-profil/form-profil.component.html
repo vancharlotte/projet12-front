@@ -1,26 +1,31 @@
-<p>form-profil works!</p>
-
 <div class="example-container">
     <div class="form-container">
         
       <form *ngIf="profil" [formGroup]="profilForm" (ngSubmit) = "updateProfil()" >
-
-        <input type= "text" placeholder= "username" formControlName = "username" value={{profilForm.username}}>
-          <br > 
-          <span style="color: red;" *ngIf="username && username.invalid"  >Please enter a Valid input</span><br />
-          <br > <br > 
-
-          <input type= "text" placeholder= "email" formControlName = "email" value={{profilForm.email}}>
-          <br > 
-          <span style="color: red;" *ngIf="email && email.invalid"  >Please enter a Valid input</span><br />
-          <br > <br >         
-
-        <input type= "text-area" placeholder= "description" formControlName = "description" value={{profilForm.description}}>
-          <br > 
-          <span style="color: red;" *ngIf="description  && description.invalid"  >Please enter a Valid input</span><br />
-          <br > <br >        
-
-        <button >Modifier</button>
-      </form>
+        <h1>Modifier votre profil</h1>
+        <i>Modifier les champs souhaités pour mettre à jour votre profil.</i>
+        <hr>
+        <div class="form-field">
+          <b>Nom : </b>            
+          <input type="text" placeholder="username" formControlName="username" value={{profilForm.username}}>
+          <span style="color: red;" *ngIf="username && username.invalid"  >Please enter a Valid input</span>
+       </div>
+      <div class="form-field">
+        <b>Email : </b>            
+        <input type="text" placeholder="email" formControlName="email">
+        <span style="color: red;" *ngIf="email && email.invalid"  >Please enter a Valid input</span>
+      </div>    
+      <div class="form-field">
+        <b> Décrivez-vous en quelques mots :  </b>
+        <textarea placeholder="" formControlName="description"></textarea>
+        <span style="color: red;" *ngIf="description  && description.invalid && description.touched">Please enter a Valid input</span>
+    </div>      
+    <div class=" form-button">
+    <br>
+      <b> <button [disabled]=profilForm.invalid>Modifier</button> </b> 
+     </div>
+     <br>
+       </form>
     </div>
   </div>
+
