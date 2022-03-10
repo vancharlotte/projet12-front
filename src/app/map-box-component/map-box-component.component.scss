@@ -1,5 +1,5 @@
 #map-mapbox { 
-  background-color : #e8f0f0;
+background-color : #e8f0f0;
 position : absolute;
 width:100%; 
 height: 100%; 
@@ -9,9 +9,7 @@ height: 100%;
   width: 20%;
   min-width:250px;
   height: 100%;
-  background-color: white;
-  padding: 10px;
-  color : black;
+  background-image: linear-gradient(to top, #f1f0ed 0%, lightseagreen 100%);
   transition: 1s ease;
   position: relative;
   border-top-right-radius: 15px;
@@ -19,13 +17,27 @@ height: 100%;
 
 }
 
+
 #name{
   min-height: 30px;
   text-align: center;
   font-family: Trebuchet MS, sans-serif	;
 }
 
+button {
+  background-color: lightseagreen  ;
 
+  border-radius: 4px;
+  padding: 2px;
+  transition:.5s;
+  &:hover{
+    background-color: white  ;
 
+  }
+}
+
+#btn{
+  text-align: center;
+}
 
 
