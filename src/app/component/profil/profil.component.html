@@ -1,15 +1,33 @@
-<div class="card" *ngIf="auth.user$ | async as user">
-  <br>
-  <button (click)="modifyProfil()"> Modifier</button>
-  <img [src]="user.picture" class="rounded-circle img-fluid profile-picture mb-3 mb-md-0">
-  <h2>{{ profil?.username }}</h2>
-  <p class="description">{{ profil?.description }}</p>
+<div class="container">
+  <div class="card" *ngIf="auth.user$ | async as user">
 
-
-  <div class="favorite">
-    <p class="title">FAVORIS </p>
-    <div *ngFor="let data of profil?.favoriteLocations; let i=index">
-      <a [routerLink]="['location']" [queryParams]="{id: data.id}">{{data?.name }} </a> <i>{{ data?.description }}</i>
+    <div class="img-avatar">
+      <img [src]="user.picture" class="rounded-circle img-fluid profile-picture mb-3 mb-md-0">
     </div>
+
+    <div class="card-text">
+      <div class="portada">
+        <p class="title"> MES FAVORIS </p>
+        <div *ngFor="let data of profil?.favoriteLocations; let i=index">
+          <a [routerLink]="['location']" [queryParams]="{id: data.id}">{{data?.name }} </a> <i>{{ data?.description
+            }}</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="title-total">
+      <h2>{{ profil?.username }}</h2>
+      <br>
+
+      <div class="title">{{ profil?.email }}</div>
+      <br><br>
+      <div class="desc">{{ profil?.description }}</div>
+<div><button (click)="modifyProfil()"> Modifier</button></div>
+
+    </div>
+
   </div>
+
+
+
 </div>
