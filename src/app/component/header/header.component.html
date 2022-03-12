@@ -1,9 +1,24 @@
 <header>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--button *ngIf="auth.isAuthenticated$ | async" class="btn-profil" routerLink="profil" routerLinkActive="active">Profil</button>  
+
   <h1>kiddymap</h1>
-    <nav>
-      <button *ngIf="auth.isAuthenticated$ | async" class="btn-profil" routerLink="profil" routerLinkActive="active">Profil</button>  
 
       <a  routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <app-auth-button></app-auth-button>  
-    </nav>
-  </header>
+      <app-auth-button></app-auth-button-->
+
+
+  <div class="header">
+    <div class="header-left">
+      <a *ngIf="auth.isAuthenticated$ | async" class="btn-profil" routerLink="profil"
+        routerLinkActive="active"><i class="fa fa-user-circle-o fa-2x"></i>
+    </a>
+    </div>
+    <a class="logo" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> KIDDYMAP
+    </a>
+    <div class="header-right">
+      <app-auth-button></app-auth-button>
+    </div>
+  </div>
+</header>

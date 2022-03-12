@@ -5,7 +5,7 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  background-image: linear-gradient(to top, #b077b3 0%, #f3de9b 100%);
+  background-image: linear-gradient(to top, #b077b3 0%, rgb(108, 192, 188) 100%);
 }
 .card {
   background: #fff;
@@ -72,12 +72,12 @@ path {
 button {
   position: absolute;
   border-radius: 6px;
-  border: #e0b835;
+  border: rgb(108, 192, 188);
   bottom: 15px;
   left: 400px;
   padding: 6px;
   font-size: 14px;
-  background-color:  #e0b835;
+  background-color:  rgb(108, 192, 188);
   transition:.5s;
   &:hover{
     background-color: #b367b6  ;

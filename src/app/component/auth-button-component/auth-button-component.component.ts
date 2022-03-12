@@ -9,12 +9,12 @@ import { HttpClient } from '@angular/common/http';
   template: `
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
       <button (click)="auth.logout({ returnTo: document.location.origin })">
-        Log out
+        déconnexion
       </button>
     </ng-container>
 
     <ng-template #loggedOut>
-      <button (click)="login()">Log in</button>
+      <button (click)="login()">Se connecter</button>
     </ng-template>
   `,
   styles: [],

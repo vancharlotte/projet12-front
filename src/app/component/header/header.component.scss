@@ -1,20 +1,19 @@
 
 header {
     text-align: center;
-    padding-bottom:  10px;
-  }
+    padding: 30px; 
+position: relative;  
+  background-color: rgb(108, 192, 188);
+    display: inline-block;
+    overflow: hidden;
+    width:100%; 
+    min-height: 40px;
 
-  a {
-    color: #333;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
   }
-
-  .btn-profil{
-    align-self: left;
-    background-color: lightgreen;
+ 
+ .btn-profil{
+     align-self: left;
+    color: white;
   }
 
   
@@ -22,3 +21,34 @@ header {
     color: #666;
     text-decoration: underline;
   }
+
+
+  /* Style the header links */
+  .header a {
+    float: center;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+  }
+  
+
+  
+  /* Change the background color on mouse-over */
+  .header a:hover {
+    color: black;
+    text-decoration: underline;
+
+  }
+  
+  .header-left {
+    float: left;
+  } 
+  .header-right {
+    float: right;
+padding-right: 100px  }
+
+
+  
