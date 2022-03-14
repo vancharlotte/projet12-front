@@ -9,8 +9,7 @@
       <div class="portada">
         <p class="title"> MES FAVORIS </p>
         <div *ngFor="let data of profil?.favoriteLocations; let i=index">
-          <a [routerLink]="['location']" [queryParams]="{id: data.id}">{{data?.name }} </a> <i>{{ data?.description
-            }}</i>
+          <a [routerLink]="['/location']" [queryParams]="{id: data.id}">{{data?.name }} </a>
         </div>
       </div>
     </div>
