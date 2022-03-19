@@ -1,5 +1,33 @@
-<div class="col-md">
-    <button (click)=callApi() class="button"> call Api </button>
-    <p class="lead text-muted">{{ location }}</p>
+<div class="container">
+  <div class="card" *ngIf="location">
+
+    <div class="card-text">
+        <h2>{{ location.name }}</h2>
+        <div class="desc">
+          <br><br>
+           <h4> Description  </h4>
+         {{ location.description }}</div>
+        <br><br>
+        <div class="card-btn">
+          <div *ngIf="auth.isAuthenticated$ | async">
+                        <button (click)="modifyFavorite(buttonValue)"> {{ buttonValue }}</button>
+          </div>
+          <br><br>
+          <br><br>
+          <div>
+            <button *ngIf="admin" [routerLink]="['../editLocation']" [queryParams]="{id: location.id}"> Modifier</button>
+
+          </div>
+        </div>
+    </div>
+
+    <div class="title-total">
+      
+      <p class="title"> EQUIPEMENTS </p>
+      <div id="equipment" *ngFor="let equipment of location?.equipments">
+         {{equipment?.name}}
+      </div>
+    </div>
 
   </div>
+</div>

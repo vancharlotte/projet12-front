@@ -1,0 +1,27 @@
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
+<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js"></script>
+
+
+<div id=map-mapbox>
+</div>
+<div class="sidebar" *ngIf="toggled">
+    <div *ngIf="location">
+        <button class="btn" (click)=closeSidebar()><i class="fa fa-close"></i></button>
+
+        <h1 id="name"> {{location?.name}} </h1>
+        <hr>
+        <div id="equipment" *ngFor="let equipment of location?.equipments">
+            {{equipment?.name}}
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div id="description"> {{location?.description}}
+        </div>
+        <br>
+        <br>
+        <div id="btn">
+            <button [routerLink]="['location']" [queryParams]="{id: location?.id}">Consulter</button>
+        </div>
+    </div>
+</div>

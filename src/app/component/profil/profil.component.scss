@@ -1,0 +1,86 @@
+.container {
+  font-family: Roboto, sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background-image: linear-gradient(to top, #b077b3 0%, rgb(108, 192, 188) 100%);
+}
+.card {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.5);
+  max-width: 600px;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 25px;
+  position: relative;
+}
+.card h2 {
+  margin: 0;
+  padding: 0 1rem;
+}
+.card .title {
+  padding: 1rem;
+  text-align: right;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.card-text .title{
+  text-align: left;
+
+}
+
+.card .desc {
+  padding: 0.5rem 1rem;
+  font-size: 12px;
+}
+
+
+.img-avatar {
+  position: absolute;
+  top: 15px;
+  left: 200px;
+}
+
+.card-text {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.title-total {
+  padding: 2.5em 1.5em 1.5em 1.5em;
+}
+
+path {
+  fill: white;
+}
+
+.portada {
+  width: 250px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: rgb(127, 127, 190);
+  background-position: bottom center;
+  background-size: cover;
+  padding: 10px;
+}
+
+button {
+  position: absolute;
+  border-radius: 6px;
+  border: rgb(108, 192, 188);
+  bottom: 15px;
+  left: 400px;
+  padding: 6px;
+  font-size: 14px;
+  background-color:  rgb(108, 192, 188);
+  transition:.5s;
+  &:hover{
+    background-color: #b367b6  ;
+
+  }
+}

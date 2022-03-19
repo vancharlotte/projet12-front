@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-
 import { Profil } from 'src/app/model/profil-model';
+import { NewProfil } from 'src/app/model/newProfil-model';
+import { lastValueFrom, map, mergeMap, Observable, switchMap, filter, firstValueFrom, Subscription } from 'rxjs';
+import { ProfilService } from 'src/app/service/profil.service';
 
 
 
@@ -11,21 +14,39 @@ import { Profil } from 'src/app/model/profil-model';
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.scss'],
 })
-export class ProfilComponent implements OnInit {
-  profileJson!: any;
-  profil! : any;
+export class ProfilComponent implements OnInit, OnDestroy {
+  profil: any;
+  user: any;
+  private readonly subscriptions = new Subscription();
 
-  constructor(public auth: AuthService, public http : HttpClient) {}
+  constructor(public profilService: ProfilService, public auth: AuthService, public http: HttpClient, private route: Router) { }
 
   ngOnInit() {
-    this.auth.user$.subscribe(
-     (profile) => (this.profileJson = JSON.stringify(profile, null, 2))
-    );
+    const sub =
+      this.profilService.getProfilByAuthId().subscribe(
+        profil => (
+          this.profil = profil,
+          console.log(this.profil)
+        )
+      )
+
+    this.subscriptions.add(sub);
+
   }
 
-  callApi() {
-    this.http.get(
-      encodeURI(`http://localhost:9004/profil/get/31482d4d-2124-414c-b186-8dbf1886af7f`)).subscribe((profil) => (this.profil = JSON.stringify(profil, null, 2))
-      );
+
+  modifyProfil() {
+    console.log("id : " + this.profil.id)
+    this.route.navigate(['/editProfil'], { queryParams: { id: this.profil.id } })
+    // navigate to other page
   }
+
+
+  ngOnDestroy() {
+    console.log("unsuscribe")
+    this.subscriptions.unsubscribe();
+  }
+
+
 }
+

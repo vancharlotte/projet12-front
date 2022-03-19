@@ -1,0 +1,34 @@
+<div class="example-container">
+  <div class="form-container" >
+    <form [formGroup]="locationForm" (ngSubmit)="addLocation()" >
+      <h1>Nouvelle adresse</h1>
+      <i>Compléter les informations pour ajouter une nouvelle adresse sur la carte.</i>
+      <br><br>
+      <div class="form-field">
+          <b>Nom : </b>            
+          <input type="text" placeholder="Entrez le nom du lieu..." formControlName="name">
+          <span style="color: red;" *ngIf="name && name.invalid && name.touched">Please enter a Valid input</span>
+      </div>
+
+      <div class="checkbox"  *ngFor="let data of Data; let i=index">
+        <label>
+          <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" /> {{data.name}}           
+        </label>
+      </div>
+
+      <div class="form-field">
+
+          <b> 
+            <br>  Décrivez cet endroit en quelques mots :  </b>
+          <textarea placeholder="" formControlName="description"></textarea>
+          <span style="color: red;" *ngIf="description  && description.invalid && description.touched">Please enter a Valid input</span><br />
+      </div>
+      <div class=" form-button">
+     <b> <button [disabled]=locationForm.invalid>Modifier</button> </b> 
+    </div>
+      <br>
+      <br>
+
+    </form>
+  </div>
+</div>
