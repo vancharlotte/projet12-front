@@ -52,6 +52,9 @@
 }
 
 .title-total {
+  display: grid;
+  grid-template-columns:1fr 2fr;;
+  text-align: left;
   padding: 2.5em 1.5em 1.5em 1.5em;
 }
 

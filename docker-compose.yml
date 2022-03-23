@@ -1,0 +1,11 @@
+version: '3'
+services:
+    kiddymap-front:
+        image: "kiddymap"
+        build:
+          context : .
+          dockerfile: Dockerfile
+        ports:
+            - "4200:4200"
+        expose : 
+            - "4200"
