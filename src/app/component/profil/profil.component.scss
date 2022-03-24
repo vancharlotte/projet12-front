@@ -11,8 +11,8 @@
   background: #fff;
   border-radius: 4px;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.5);
-  max-width: 600px;
-  height: 400px;
+  max-width: 700px;
+  height: 450px;
   display: flex;
   flex-direction: row;
   border-radius: 25px;
@@ -24,7 +24,7 @@
 }
 .card .title {
   padding: 1rem;
-  text-align: right;
+  text-align: left;
   font-weight: bold;
   font-size: 12px;
 }
@@ -57,6 +57,7 @@
   text-align: left;
   padding: 2.5em 1.5em 1.5em 1.5em;
 }
+
 
 path {
   fill: white;
