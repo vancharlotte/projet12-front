@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { GeoJSONSource } from 'mapbox-gl';
-import { LocationService } from '../service/location.service';
+import { LocationService } from '../../service/location.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 
