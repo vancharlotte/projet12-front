@@ -48,13 +48,13 @@
 
 .card-text {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr;
 }
 
 .title-total {
   display: grid;
-  grid-template-columns:1fr 2fr;;
-  text-align: left;
+  grid-template-columns:1fr;
+  text-align: center;
   padding: 2.5em 1.5em 1.5em 1.5em;
 }
 
