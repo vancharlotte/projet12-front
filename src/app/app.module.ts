@@ -17,7 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthButtonComponentComponent } from './component/auth-button-component/auth-button-component.component';
 import { LandingPageComponent } from './component/landing-page/landing-page.component';
 import { FormLocationComponent } from './component/form-location/form-location.component';
-import { MapBoxComponentComponent } from './map-box-component/map-box-component.component';
+import { MapBoxComponentComponent } from './component/map-box-component/map-box-component.component';
 
 import { AuthModule } from '@auth0/auth0-angular';
 // Import the injector module and the HTTP client module from Angular
@@ -26,8 +26,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormProfilComponent } from './component/form-profil/form-profil.component';
-import { LoginComponent } from './login/login.component';
-import { EditLocationComponent } from './edit-location/edit-location.component';
+import { LoginComponent } from './component/login/login.component';
+import { EditLocationComponent } from './component/edit-location/edit-location.component';
 import { ErrorsHandler } from './service/errors-handler.service';
 
 

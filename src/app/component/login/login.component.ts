@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { NewProfil } from 'src/app/model/newProfil-model';
 import { Router } from '@angular/router';
-import { ProfilService } from '../service/profil.service';
+import { ProfilService } from '../../service/profil.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
