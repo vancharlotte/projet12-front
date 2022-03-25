@@ -1,6 +1,10 @@
 # Projet12 - Frontend
 Aidez la communauté en tant que développeur d'application Java
 
+```
+    localhost:4200/
+```
+
 ### Lancement
 
 ```
